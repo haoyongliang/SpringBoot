@@ -202,7 +202,7 @@
 	    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 	        HttpServletRequest req = (HttpServletRequest) request;
 	        //打印请求Url
-	        System.out.println("当前客户端正在请求访问的路径是" + req.getRequestURI());
+	        System.out.println("当前客户端正在请求访问的路径是:" + req.getRequestURI());
 	        filterChain.doFilter(request, response);
 	    }
 	
@@ -230,6 +230,8 @@
 	}
     </pre>
 
+	c. 重新启动项目,访问任意一个服务，会发现在控制台中都会打印
+	<pre>当前客户端正在请求访问的路径是:....</pre>
 ## 3. **@Configuration和@Bean注解说明:**
  1. @Configuration 标注在类上，相当于把该类作为spring的xml配置文件中的 &lt;beans&gt;，作用为：配置spring容器(应用上下文),上文中在MyFilterConfiguration类上添加了该注解，相当于创建了一个beans.xml配置文件里面的内容是
  
@@ -256,4 +258,57 @@
   - @Bean注解默认作用域为单例singleton作用域，可通过@Scope(“prototype”)设置为原型作用域
   
  	上文中在myFilterRegistration()方法上加了@Bean注解，表示在spring启动的时候会执行该方法并将结果作为一个bean注册到容器中，该bean的名字是"myFilterRegistration"
-    
+
+# 4.属性配置和自定义属性配置
+
+  如果需要修改自定义修改默认配置，spring boot 提供了很简便的方法，只需要在application.properties 中添加修改相应的配置。（spring boot启动的时候会读取application.properties这份默认配置）
+
+## 1.属性配置
+  例如 : spring boot 开发web应用的时候，默认tomcat的启动端口为8080，如果需要修改默认的端口，则需要在application.properties 添加以下记录：
+    <pre>server.port=8888</pre>
+  重启项目，启动日志可以看到：Tomcat started on port(s): 8888 (http) 启动端口为8888，浏览器中访问 http://localhost:8888 能正常访问。
+
+## 2.自定义属性配置
+  在application.properties中除了可以修改默认配置，我们还可以在这配置自定义的属性，并在实体bean中加载出来。
+  
+  1. 在application.properties中添加自定义属性配置
+    <pre>
+	cn.itcast.username = "LuRenJia"
+	cn.itcast.password = "admin"
+    </pre>
+  2. 编写Bean类，加载属性
+    <pre>
+	@Component
+	@ConfigurationProperties(prefix = "cn.itcast")
+	public class User {
+	    private String username;
+	    private String password;
+	
+	    //省略getter/setter方法
+	}
+	</pre>
+	这里引入ConfigurationProperties注解的时候会报错，需要添加依赖
+	
+	```
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-configuration-processor</artifactId>
+		<optional>true</optional>
+	</dependency>
+	```
+  3. 编写控制器测试是否将数据成功加载到User中
+    <pre>
+	@RestController
+	@RequestMapping("userController")
+	public class UserController {
+	    @Autowired
+	    private User user;
+	
+	    @RequestMapping(value = "info",method = RequestMethod.GET)
+	    public String info(){
+	        return user.getUsername()+","+user.getPassword();
+	    }
+	}
+	</pre>
+  4. 访问http://localhost:8080/userController/info 查看结果，在页面显示如下内容
+    <pre>"LuRenJia","admin"</pre>
