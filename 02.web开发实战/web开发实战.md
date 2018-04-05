@@ -298,7 +298,7 @@
 		<optional>true</optional>
 	</dependency>
 	```
-  3. 编写控制器测试是否将数据成功加载到User中
+  3. 编写控制器看看是否将数据成功加载到User中
     <pre>
 	@RestController
 	@RequestMapping("userController")
