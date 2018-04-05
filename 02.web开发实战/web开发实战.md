@@ -277,6 +277,7 @@
 	cn.itcast.password = "admin"
     </pre>
   2. 编写Bean类，加载属性
+  
     <pre>
 	@Component
 	@ConfigurationProperties(prefix = "cn.itcast")
@@ -287,6 +288,7 @@
 	    //省略getter/setter方法
 	}
 	</pre>
+
 	这里引入ConfigurationProperties注解的时候会报错，需要添加依赖
 	
 	```
