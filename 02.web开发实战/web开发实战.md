@@ -153,7 +153,7 @@
         if(result.hasErrors()){
             List<ObjectError> allErrors = result.getAllErrors();
             for (ObjectError error : allErrors) {
-                message += error.getDefaultMessage()+"< br/ >";
+                message += error.getDefaultMessage();
             }
         }
 
@@ -181,3 +181,79 @@
 	- Size 所注解的元素必须是String,集合,或数组,并且它的长度要符合给定的范围
 	- Pattern 所注解的元素的值必须匹配给定的正则表达式
 	
+# 3.自定义过滤器
+
+## 1. 过滤器功能
+ 过滤器可以用于记录请求日志、排除有 XSS 威胁的字符、执行权限验证等等
+
+## 2. 自定义过滤器步骤
+ 1. 创建一个类实现 javax.servlet.Filter 接口
+ 2. 将创建的类挂载到过滤器链上
+ 			
+ 	a. 创建MyFilter类实现Filter接口
+    <pre>
+	public class MyFilter implements Filter {
+	    @Override
+	    public void init(FilterConfig filterConfig) throws ServletException {
+	
+	    }
+	
+	    @Override
+	    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+	        HttpServletRequest req = (HttpServletRequest) request;
+	        //打印请求Url
+	        System.out.println("当前客户端正在请求访问的路径是" + req.getRequestURI());
+	        filterChain.doFilter(request, response);
+	    }
+	
+	    @Override
+	    public void destroy() {
+	
+	    }
+	}
+    </pre>
+ 	b. 通过@Configuration + @Bean 注解将过滤器注入到 IOC 容器中，并通过 setOrder 方法设置过滤器位置（过滤器链中的位置）
+    <pre>
+	@Configuration
+	public class MyFilterConfiguration {
+	    @Bean
+	    public FilterRegistrationBean myFilterRegistration() {
+	        FilterRegistrationBean registration = new FilterRegistrationBean();
+	        registration.setFilter(new MyFilter());//添加过滤器
+	        registration.addUrlPatterns("/*");//设置过滤路径，/*所有路径
+	        registration.addInitParameter("name", "alue");//添加默认参数
+	        registration.setName("MyFilter");//设置优先级
+	        registration.setOrder(1);//设置优先级
+	        return registration;
+	    }
+	
+	}
+    </pre>
+
+## 3. **@Configuration和@Bean注解说明:**
+ 1. @Configuration 标注在类上，相当于把该类作为spring的xml配置文件中的 &lt;beans&gt;，作用为：配置spring容器(应用上下文),上文中在MyFilterConfiguration类上添加了该注解，相当于创建了一个beans.xml配置文件里面的内容是
+ 
+    ```XML
+
+		<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+			xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+			xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd" default-lazy-init="false" >
+		
+		
+		</beans>
+
+    ```
+
+ 2. @Bean标注在方法上(返回某个实例的方法)，等价于spring的xml配置文件中的&lt;bean&gt;，作用为：注册bean对象。
+  - @Bean注解在返回实例的方法上，如果未通过@Bean指定bean的名称，则默认与标注的方法名相同。
+  - @Bean注解默认作用域为单例singleton作用域，可通过@Scope(“prototype”)设置为原型作用域
+  
+ 	上文中在myFilterRegistration()方法上加了@Bean注解，表示在spring启动的时候会执行该方法并将结果作为一个bean注册到容器中，该bean的名字是"myFilterRegistration"
+    
