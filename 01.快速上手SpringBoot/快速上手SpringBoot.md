@@ -1,8 +1,7 @@
 # Spring Boot技术栈(快速上手SpringBoot)
  - 本篇带大家搭建开发环境，感受SpringBoot快速开发带来的好处
-# SpringBoot简介
 
-# 了解SpringBoot
+# SpringBoot简介
 
 Spring Boot 是一套全新的框架，它来自于 Spring 大家族，因此 Spring 所有具备的功能它都有，而且更容易使用；Spring Boot 以约定大于配置的核心思想，默认帮我们进行了很多设置，**多数 Spring Boot 应用只需要很少的 Spring 配置**。Spring Boot 开发了很多的应用集成包，支持绝大多数开源软件，让我们以很低的成本去集成其他主流开源软件。
 
