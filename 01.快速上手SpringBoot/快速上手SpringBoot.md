@@ -78,7 +78,7 @@ root package 结构：com.example.myproject
 
 采用默认配置可以省去很多设置，当然也可以根据自己的喜好来进行更改。最后，启动 Application main 方法，至此一个 Java 项目搭建好了！
 
-## 简单 Web 开发
+# 简单 Web 开发
 1. 可以在 Spring Initializr 上面添加，也可以手动在 pom.xml 中添加：
 	<pre>
 	<dependency>
