@@ -146,7 +146,7 @@
 	}
 	</pre>
  2. Spring Boot 的参数校验其实是依赖于 hibernate-validator 来进行。现在模拟对参数 User 进行参数校验，使用 @Valid + BindingResult，校验后如果有错误将错误打印出来，代码如下：
- 	<pre>
+    <pre>
 	@RequestMapping("savePerson")
     public String savePerson(@Valid Person person, BindingResult result){
         String message = "";
