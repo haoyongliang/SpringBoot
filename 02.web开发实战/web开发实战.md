@@ -19,7 +19,8 @@
 	</pre> 
 
  2. 在web包下新建一个类 PersonController ,PersonController 信息如下
- 	<pre>
+ 	
+    <pre>
 	@RestController
 	@RequestMapping("personController")
 	public class PersonController {
