@@ -1,6 +1,6 @@
-# Spring Boot技术栈(快速上手SpringBoot)
+# Spring Boot技术栈(Spring Boot 对 Web 开发的支持)
 
- - 本篇介绍 Spring Boot中spring-boot-starter-web 对 Web 开发的支持，主要包括 RESTful、参数校验、过滤器等功能。
+ - 本篇介绍 Spring Boot中spring-boot-starter-web 对 Web 开发的支持，主要包括 RestFul、获取请求参数、过滤器等功能。
 
 # 1.编写RestFul风格的代码
 
@@ -116,7 +116,7 @@
 	![1](./springboot_img/getDetails.jpg)
  - **@RequestParam**和**@PathVariable**注解的作用
 
-	- @RequestParam 和 @PathVariable 注解是用于从request中接收请求的，两个都可以接收参数.@RequestParam是从请求中获取数据，也就是获取URL中?后面的后面获取数据。而@PathVariable则是获取URL地址中的一部分值。
+	- @RequestParam 和 @PathVariable 两个都可以接收参数.@RequestParam是从请求中获取数据，也就是获取URL中?后面的数据。而@PathVariable则是获取URL地址中的一部分值。
 	
 	- **@RequestParam** 支持下面四种参数
 
