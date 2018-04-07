@@ -11,14 +11,16 @@
 
 ## 1.添加依赖
 ```
-<dependency>
-    <groupId>org.Springframework.boot</groupId>
-    <artifactId>Spring-boot-starter-data-jpa</artifactId>
-</dependency>
- <dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-</dependency>
+
+	<dependency>
+		<groupId>org.Springframework.boot</groupId>
+	    <artifactId>Spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+	 <dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	</dependency>
+
 ```    
 ## 2.修改application.properties配置文件
 
@@ -53,4 +55,52 @@ spring.jpa.show-sql= true
 7. show-sql ： 是否在控制台打印SQL语句，建议调试时启用，方便调试。
  
 ## 3.创建实体类
-	- 注意：
+ - 注意：
+	 - 实体类在命名时候不要是数据库中的关键字比如Order,要定义成Orders
+	 - Entity 中不映射成列的字段得加 @Transient 注解，不加注解也会映射成列
+	 
+    <pre>
+	/**
+	 * 账户
+	 */
+	@Entity
+	public class Account implements Serializable{
+	    @Id
+	    @GeneratedValue
+	    private Long id;//ID主键
+	    @Column(nullable = false,unique = true)
+	    private String username;//用户名,不能为空，不能重复
+	    @Column(nullable = false)
+	    private String password;//密码，不能为空
+	    @Column(nullable = false)
+	    private String gender;    //性别，不能为空
+	    @Column()
+	    private String address; //地址
+	    @Column()
+	    private double balance;//账户余额
+	
+	    public Account(String username, String password, String gender, String address, double balance) {
+	        this.username = username;
+	        this.password = password;
+	        this.gender = gender;
+	        this.address = address;
+	        this.balance = balance;
+	    }
+
+	    //省略无参构造,getter,setter方法
+	}
+
+    </pre>
+## 4.创建DAO
+ Dao 只要继承 JpaRepository 类就可以，几乎可以不用写方法，还有一个特别有个性的功能非常赞，就是可以根据方法名来自动的生产 SQL，如 findByUserName 会自动生产一个以 userName 为参数的查询方法，如 findAll 自动会查询表里面的所有数据，如自动分页等等
+
+<pre>
+
+public interface AccountRepository extends JpaRepository<Account,Long> {
+    Account findAccountByUsername(String username);
+    Account findAccountByUsernameAndAddress(String username);
+}
+
+</pre>
+
+ - 说明：JpaRepository<Account,Long>中第一个参数是实体类型，第二个参数是实体类中主键的类型
