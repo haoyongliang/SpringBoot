@@ -62,38 +62,38 @@ spring.jpa.show-sql= true
 	 - 实体类在命名时候不要是数据库中的关键字比如Order,要定义成Orders
 	 - Entity 中不映射成列的字段得加 @Transient 注解，不加注解也会映射成列
 	 
-    <pre>
-	/**
-	 * 账户
-	 */
-	@Entity
-	public class Account implements Serializable{
-	    @Id
-	    @GeneratedValue
-	    private Long id;//ID主键
-	    @Column(nullable = false,unique = true)
-	    private String username;//用户名,不能为空，不能重复
-	    @Column(nullable = false)
-	    private String password;//密码，不能为空
-	    @Column(nullable = false)
-	    private String gender;    //性别，不能为空
-	    @Column()
-	    private String address; //地址
-	    @Column()
-	    private double balance;//账户余额
-	
-	    public Account(String username, String password, String gender, String address, double balance) {
-	        this.username = username;
-	        this.password = password;
-	        this.gender = gender;
-	        this.address = address;
-	        this.balance = balance;
-	    }
+<pre>
+/**
+ * 账户
+ */
+@Entity
+public class Account implements Serializable{
+    @Id
+    @GeneratedValue
+    private Long id;//ID主键
+    @Column(nullable = false,unique = true)
+    private String username;//用户名,不能为空，不能重复
+    @Column(nullable = false)
+    private String password;//密码，不能为空
+    @Column(nullable = false)
+    private String gender;    //性别，不能为空
+    @Column()
+    private String address; //地址
+    @Column()
+    private double balance;//账户余额
 
-	    //省略无参构造,getter,setter方法
-	}
+    public Account(String username, String password, String gender, String address, double balance) {
+        this.username = username;
+        this.password = password;
+        this.gender = gender;
+        this.address = address;
+        this.balance = balance;
+    }
 
-    </pre>
+    //省略无参构造,getter,setter方法
+}
+
+</pre>
 
 ## 4.创建DAO
 
