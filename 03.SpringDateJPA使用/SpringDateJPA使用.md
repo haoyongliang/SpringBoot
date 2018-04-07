@@ -35,7 +35,9 @@ spring.jpa.properties.hibernate.hbm2ddl.auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 spring.jpa.show-sql= true
 </pre>
+
 ### 配置文件说明
+
 1. spring.datasource.url : 数据库连接URL
 2. spring.datasource.username : 数据库帐号
 3. spring.datasource.password : 数据库密码
@@ -55,6 +57,7 @@ spring.jpa.show-sql= true
 7. show-sql ： 是否在控制台打印SQL语句，建议调试时启用，方便调试。
  
 ## 3.创建实体类
+
  - 注意：
 	 - 实体类在命名时候不要是数据库中的关键字比如Order,要定义成Orders
 	 - Entity 中不映射成列的字段得加 @Transient 注解，不加注解也会映射成列
@@ -91,7 +94,9 @@ spring.jpa.show-sql= true
 	}
 
     </pre>
+
 ## 4.创建DAO
+
  Dao 只要继承 JpaRepository 类就可以，几乎可以不用写方法，还有一个特别有个性的功能非常赞，就是可以根据方法名来自动的生产 SQL，如 findByUserName 会自动生产一个以 userName 为参数的查询方法，如 findAll 自动会查询表里面的所有数据，如自动分页等等
 
 <pre>
