@@ -100,13 +100,14 @@ public class Account implements Serializable{
  Dao 只要继承 JpaRepository 类就可以，几乎可以不用写方法，还有一个特别有个性的功能非常赞，就是可以根据方法名来自动的生产 SQL，如 findByUserName 会自动生产一个以 userName 为参数的查询方法，如 findAll 自动会查询表里面的所有数据，如自动分页等等
 
 <pre>
-public interface AccountRepository extends JpaRepository<Account,String> {
+public interface AccountRepository extends JpaRepository&lt;Account,Long&gt; {
     Account findAccountByUsername(String username);
     Account findAccountByUsernameAndAddress(String username, String address);
+    List<Account> findAllByPassword(String password);
 }
 </pre>
 
- - 说明：JpaRepository<T,ID>这个接口只是一个空的接口，目的是为了统一所有Repository的类型，其接口类型使用了泛型，泛型参数中T代表实体类型，ID则是实体中id的类型
+ - 说明：JpaRepository&lt;T,ID&gt;这个接口只是一个空的接口，目的是为了统一所有Repository的类型，其接口类型使用了泛型，泛型参数中T代表实体类型，ID则是实体中id的类型
 
 ## 5.编写控制器测试
 
