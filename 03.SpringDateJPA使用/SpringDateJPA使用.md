@@ -1,0 +1,56 @@
+# Spring Boot技术栈(Spring Boot 对 Web 开发的支持)
+
+ - 本篇介绍 Spring Boot 对 JPA 开发的支持
+
+# 1.JPA介绍
+
+ - Spring Data JPA 是 Spring 基于 ORM 框架、JPA 规范的基础上封装的一套 JPA 应用框架，可使开发者用极简的代码即可实现对数据的访问和操作。它提供了包括增删改查等在内的常用功能，且易于扩展！学习并使用 Spring Data JPA 可以极大提高开发效率！
+ - Spring Data JPA 让我们解脱了 DAO 层的操作，基本上所有 CRUD 都可以依赖于它来实现。
+
+# 2.开发环境搭建
+
+## 1.添加依赖
+    
+	<dependency>
+	    <groupId>org.Springframework.boot</groupId>
+	    <artifactId>Spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+	 <dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	</dependency>
+    
+## 2.修改application.properties配置文件
+
+### 添加配置
+
+	spring.datasource.url=jdbc:mysql://127.0.0.1:3306/heima
+	spring.datasource.username=root
+	spring.datasource.password=root
+	spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+	
+	spring.jpa.properties.hibernate.hbm2ddl.auto=update
+	spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+	spring.jpa.show-sql= true
+ 
+### 配置文件说明
+1. spring.datasource.url : 数据库连接URL
+2. spring.datasource.username : 数据库帐号
+3. spring.datasource.password : 数据库密码
+4. pring.datasource.driver-class-name : 驱动名
+	- mysql的驱动：com.mysql.jdbc.Driver
+	- oracle的驱动：oracle.jdbc.OracleDriver
+	- sqlserver的驱动：com.microsoft.sqlserver.jdbc.SQLServerDriver
+5. spring.jpa.properties.hibernate.hbm2ddl.auto : 自动创建 | 更新 | 验证数据库表结构
+	- create : 每次加载hibernate，如果数据库中存在表，将所有表删除，然后重新生成表
+	- update : 每次hibernate 时根据 model 类自动更新表结构，如果是第一次则创建表结构。之前表数据不会删除
+	- validate : 设置为validate:加载hibernate时，验证创建数据库表结构，这样 spring在加载之初，如果model层和数据库表结构不同，就会报错，这样有助于技术运维预先发现问题。例如：ProductInfoEntity这个实体有property1这个属性，而对应的数据库表product没有property1这个字段，就会在tomcat启动的时候报错：错误可能如下：Missing column: property1 in wjs.product
+	- create-drop : 如果一开始数据库没有表，启动tomcat的时候会生成表，当把tomcat关闭之后生成的表又会消除
+6. spring.jpa.properties.hibernate.dialect ： 告诉Hibernate，将HQL翻译成哪种数据库的SQL,常见的有
+	- mysql : org.hibernate.dialect.MySQLDialect
+	- oracle : org.hibernate.dialect.OracleDialect
+	- sqlserver : org.hibernate.dialect.SQLServerDialect
+7. show-sql ： 是否在控制台打印SQL语句，建议调试时启用，方便调试。
+ 
+## 3.创建实体类
+	- 注意：

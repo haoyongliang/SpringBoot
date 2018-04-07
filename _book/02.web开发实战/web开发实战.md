@@ -273,8 +273,8 @@
   
   1. 在application.properties中添加自定义属性配置
     <pre>
-	cn.itcast.username = LuRenJia
-	cn.itcast.password = admin
+	cn.itcast.username = "LuRenJia"
+	cn.itcast.password = "admin"
     </pre>
   2. 编写Bean类，加载属性
   
@@ -313,4 +313,4 @@
 	}
 	</pre>
   4. 访问http://localhost:8080/userController/info 查看结果，在页面显示如下内容
-    <pre>LuRenJia,admin</pre>
+    <pre>"LuRenJia","admin"</pre>
