@@ -10,29 +10,29 @@
 # 2.开发环境搭建
 
 ## 1.添加依赖
-    
-	<dependency>
-	    <groupId>org.Springframework.boot</groupId>
-	    <artifactId>Spring-boot-starter-data-jpa</artifactId>
-	</dependency>
-	 <dependency>
-	    <groupId>mysql</groupId>
-	    <artifactId>mysql-connector-java</artifactId>
-	</dependency>
-    
+```
+<dependency>
+    <groupId>org.Springframework.boot</groupId>
+    <artifactId>Spring-boot-starter-data-jpa</artifactId>
+</dependency>
+ <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+</dependency>
+```    
 ## 2.修改application.properties配置文件
 
 ### 添加配置
+<pre>
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/heima
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 
-	spring.datasource.url=jdbc:mysql://127.0.0.1:3306/heima
-	spring.datasource.username=root
-	spring.datasource.password=root
-	spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-	
-	spring.jpa.properties.hibernate.hbm2ddl.auto=update
-	spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-	spring.jpa.show-sql= true
- 
+spring.jpa.properties.hibernate.hbm2ddl.auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.show-sql= true
+</pre>
 ### 配置文件说明
 1. spring.datasource.url : 数据库连接URL
 2. spring.datasource.username : 数据库帐号
