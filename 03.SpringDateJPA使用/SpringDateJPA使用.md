@@ -137,6 +137,12 @@ public class AccountController {
 
         return message;
     }
+
+    @RequestMapping("findAllByPassword")
+    public List<Account> findAllByPassword(@RequestParam String password){
+        List<Account> accounts = accountRepository.findAllByPassword(password);
+        return accounts;
+    }
 }
 </pre>
 
