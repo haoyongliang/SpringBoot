@@ -68,7 +68,9 @@
  	/**
      * 如果形式参数是Person类型，只要是 Person 的属性都会被自动填充到 person 对象中
      * 访问路径http://localhost:8080/personController/showPersonInfo1
-     * @param person
+     * @
+     * 
+     *  person
      * @return
      */
     @RequestMapping(value = "showPersonInfo1", method = RequestMethod.POST)
@@ -79,7 +81,8 @@
     /**
      * 接收name，age，address参数并手动将其封装成Person对象
      * 访问路径http://localhost:8080/personController/showPersonInfo2
-     * @param person
+     * @
+     * m person
      * @return
      */
     @RequestMapping(value = "showPersonInfo2", method = RequestMethod.POST)
