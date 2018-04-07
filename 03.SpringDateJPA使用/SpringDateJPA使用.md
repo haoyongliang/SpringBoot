@@ -59,7 +59,7 @@ spring.jpa.show-sql= true
 ## 3.创建实体类
 
  - 注意：
-	 - 实体类在命名时候不要是数据库中的关键字比如Order,要定义成Orders
+	 - 实体类在命名时候不要用数据库中的关键字比如Order,可以定义成Orders
 	 - Entity 中不映射成列的字段得加 @Transient 注解，不加注解也会映射成列
 	 
 <pre>
@@ -100,12 +100,51 @@ public class Account implements Serializable{
  Dao 只要继承 JpaRepository 类就可以，几乎可以不用写方法，还有一个特别有个性的功能非常赞，就是可以根据方法名来自动的生产 SQL，如 findByUserName 会自动生产一个以 userName 为参数的查询方法，如 findAll 自动会查询表里面的所有数据，如自动分页等等
 
 <pre>
-
-public interface AccountRepository extends JpaRepository<Account,Long> {
+public interface AccountRepository extends JpaRepository<Account,String> {
     Account findAccountByUsername(String username);
-    Account findAccountByUsernameAndAddress(String username);
+    Account findAccountByUsernameAndAddress(String username, String address);
 }
-
 </pre>
 
- - 说明：JpaRepository<Account,Long>中第一个参数是实体类型，第二个参数是实体类中主键的类型
+ - 说明：JpaRepository<T,ID>这个接口只是一个空的接口，目的是为了统一所有Repository的类型，其接口类型使用了泛型，泛型参数中T代表实体类型，ID则是实体中id的类型
+
+## 5.编写控制器测试
+
+<pre>
+@RestController
+@RequestMapping("account")
+public class AccountController {
+    @Autowired
+    AccountRepository accountRepository;
+
+    @RequestMapping("save")
+    public String save(@RequestParam String username,
+                       @RequestParam String password,
+                       @RequestParam String gender,
+                       @RequestParam String address,
+                       @RequestParam double balance) {
+        Account account = new Account(username, password, gender, address, balance);
+        String message = "";
+        try {
+            Account save = accountRepository.save(account);
+            if(save!=null){
+                message = "保存成功";
+            }
+        } catch (Exception e) {
+            message = "保存失败"+e.getMessage();
+            e.printStackTrace();
+        }
+
+        return message;
+    }
+}
+</pre>
+
+- 访问地址：
+ - 保存接口
+	 http://localhost:8080/account/save?username="张三"&gender="W"&password="123456"&address="山西晋中"&balance=1001.1
+	 ![0](./springboot_img/save.jpg)
+ 		- 注意：该地址访问多次的时候username要更改，因为username是唯一的
+ - 查询接口
+     http://localhost:8080/account/findAllByPassword?password=123456
+     ![1](./springboot_img/findAllByPassword.jpg)
