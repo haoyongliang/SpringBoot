@@ -170,6 +170,7 @@ public class HelloWorldController {
 </build>
 ```
 3. 配置 Idea
+
  1. 选择 File-Settings-Compiler 勾选 Build project automatically，低版本 Idea 勾选 make project automatically。
  ![2](./springboot_img/ideahot.jpg)
  2.使用快捷键：CTRL + SHIFT + A 输入Registry 找到选项 compile.automake.allow.when.app.running 勾选 
