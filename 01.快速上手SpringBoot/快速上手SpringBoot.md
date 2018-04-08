@@ -173,7 +173,7 @@ public class HelloWorldController {
 
  1. 选择 File-Settings-Compiler 勾选 Build project automatically，低版本 Idea 勾选 make project automatically。
  ![2](./springboot_img/ideahot.jpg)
- 2.使用快捷键：CTRL + SHIFT + A 输入Registry 找到选项 compile.automake.allow.when.app.running 勾选 
+ 2. 使用快捷键：CTRL + SHIFT + A 输入Registry 找到选项 compile.automake.allow.when.app.running 勾选 
  ![3](./springboot_img/0.6294533078536897.png)
  
  全部配置完成后，Idea 就支持热部署了，大家可以试着去改动一下代码就会发现 Spring Boot 会自动重新加载，再也不需要我们手动点击重新部署了。
