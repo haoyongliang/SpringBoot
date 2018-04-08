@@ -170,26 +170,30 @@ public void testBaseQuery() {
 
 ## 2.自定义简单查询
 
- > 自定义的简单查询就是根据方法名来自动生成 SQL，主要的语法是 findXXBy、readAXXBy、queryXXBy、countXXBy、getXXBy 后面跟属性名称：</br>
+ > 自定义的简单查询就是根据方法名来自动生成 SQL，主要的语法是 findXXBy、readAXXBy、queryXXBy、countXXBy、getXXBy 后面跟属性名称：
+
  <pre>User findByUserName(String userName);</pre>
 
- > 也可以加一些关键字 And、Or：</br>
+ > 也可以加一些关键字 And、Or：
+
  <pre>User findByUserNameOrEmail(String username, String email);</pre>
 
- > 修改、删除、统计也是类似语法：</br>
+ > 修改、删除、统计也是类似语法：
+
 <pre>
 Long deleteById(Long id);
 Long countByUserName(String userName)
 </pre>
  
- > 基本上 SQL 体系中的关键词都可以使用，如 LIKE、IgnoreCase、OrderBy。</br>
+ > 基本上 SQL 体系中的关键词都可以使用，如 LIKE、IgnoreCase、OrderBy。
+
 <pre>
 List<User> findByEmailLike(String email);
 User findByUserNameIgnoreCase(String userName);
 List<User> findByUserNameOrderByEmailDesc(String email);
 </pre>
 
-> 具体的关键字，使用方法和生产成 SQL 如下表所示：</br>
+> 具体的关键字，使用方法和生产成 SQL 如下表所示：
 
 <table style="border-collapse: collapse; border-spacing: 0;background-color: transparent;">
 <thead>
@@ -379,3 +383,19 @@ public void pageTest(){
 ### 2.限制查询
 
  > 有时候我们只需要查询前 N 个元素，或者只取前一个实体。
+
+<pre>
+User findFirstByOrderByLastnameAsc();
+
+User findTopByOrderByAgeDesc();
+
+Page<User> queryFirst10ByLastname(String lastname, Pageable pageable);
+
+List<User> findFirst10ByLastname(String lastname, Sort sort);
+
+List<User> findTop10ByLastname(String lastname, Pageable pageable);
+</pre>
+
+### 3.自定义 SQL 查询
+
+ > 用 Spring Data 大部分的 SQL 都可以根据方法名定义的方式来实现，但是由于某些原因我们想使用自定义的 SQL 来查询，Spring Data 也可以完美支持；在 SQL 的查询方法上面使用 @Query 注解，如涉及到删除和修改需要加上 @Modifying，也可以根据需要添加 @Transactional 对事物的支持，查询超时的设置等。
