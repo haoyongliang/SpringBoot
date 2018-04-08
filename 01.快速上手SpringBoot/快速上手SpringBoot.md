@@ -1,7 +1,7 @@
 # Spring Boot技术栈(快速上手SpringBoot)
 
  - 本篇带大家搭建开发环境，感受SpringBoot快速开发带来的好处
- - 
+
 ## SpringBoot简介
 
 Spring Boot 是一套全新的框架，它来自于 Spring 大家族，因此 Spring 所有具备的功能它都有，而且更容易使用；Spring Boot 以约定大于配置的核心思想，默认帮我们进行了很多设置，**多数 Spring Boot 应用只需要很少的 Spring 配置**。Spring Boot 开发了很多的应用集成包，支持绝大多数开源软件，让我们以很低的成本去集成其他主流开源软件。
@@ -42,7 +42,7 @@ Spring Boot 的基础结构共三个文件：
 - src/main/resources：配置文件
 - src/test/java：测试程序
 
-### 3.Sping Boot 建议的包结构如下：
+### 3.Sping Boot 建议的包结构
 
 root package 结构：cn.giftsstore.myProject
 <pre>
@@ -65,7 +65,7 @@ myproject
  +-pom.xml
 </pre>
 
-### 4.包名介绍：
+### 4.各包名介绍
 
 - Application.java：建议放到根目录下面，是项目的启动类，Spring Boot 项目只能有一个 main() 方法。
 - comm：目录建议放置公共的类，如全局的配置文件、工具类等。
@@ -98,6 +98,7 @@ myproject
  - pom.xml 文件中默认有两个模块：
  	- spring-boot-starter：核心模块，包括自动配置支持、日志和 YAML；
  	- spring-boot-starter-test：测试模块，包括 JUnit、Hamcrest、Mockito。
+
 ### 2.编写控制层(controller)代码
 
 <pre>
@@ -122,14 +123,14 @@ public class HelloWorldController {
 ### 4.URL传参
 
 > 这里仅仅做一个简单传参,第二章会详细介绍如何传参
+
 <pre>
 @RestController
 public class HelloWorldController {
-
-    @RequestMapping("/hello")
-    public String index(String name) {
-        return "Hello World, " +name;
-    }
+	@RequestMapping("/hello")
+	public String index(String name) {
+	    return "Hello World, " +name;
+	}
 }
 </pre>
 
