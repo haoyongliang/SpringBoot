@@ -317,3 +317,7 @@
 	</pre>
   4. 访问http://localhost:8080/userController/info 查看结果，在页面显示如下内容
     <pre>LuRenJia,admin</pre>
+
+	如果测试中出现中文乱码，可安装以下方法进行设置：
+
+	依次单击 File | Settings | Editor | File Encodings 命令，将 Properties Files (*.properties) 下的 Default encoding for properties files 设置为 UTF-8，将 Transparent native-to-ascii conversion 前的复选框勾选上。

@@ -102,56 +102,223 @@ public class Account implements Serializable{
 <pre>
 public interface AccountRepository extends JpaRepository&lt;Account,Long&gt; {
     Account findAccountByUsername(String username);
-    Account findAccountByUsernameAndAddress(String username, String address);
-    List<Account> findAllByPassword(String password);
+    List&lt;Account&gt; findAllByAddressLike(String address);//比如查询地址包含"西"的 address的值="%西%"
+    List&lt;Account&gt; findAllByBalanceGreaterThanEqual(double balance);//余额大于等于指定金额
+    List&lt;Account&gt; findAllByBalanceGreaterThan(double balance);//余额大于指定金额
 }
 </pre>
 
  - 说明：JpaRepository&lt;T,ID&gt;这个接口只是一个空的接口，目的是为了统一所有Repository的类型，其接口类型使用了泛型，泛型参数中T代表实体类型，ID则是实体中id的类型
 
-## 5.编写控制器测试
+## 5.编写测试代码
 
 <pre>
-@RestController
-@RequestMapping("account")
-public class AccountController {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class AccountRepositoryTests {
+
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
-    @RequestMapping("save")
-    public String save(@RequestParam String username,
-                       @RequestParam String password,
-                       @RequestParam String gender,
-                       @RequestParam String address,
-                       @RequestParam double balance) {
-        Account account = new Account(username, password, gender, address, balance);
-        String message = "";
-        try {
-            Account save = accountRepository.save(account);
-            if(save!=null){
-                message = "保存成功";
-            }
-        } catch (Exception e) {
-            message = "保存失败"+e.getMessage();
-            e.printStackTrace();
-        }
+    @Test
+    public void test()  {
+        accountRepository.deleteAll();
+        accountRepository.save(new Account("张三丰","123456","男","山西太原",5000.5));
+        accountRepository.save(new Account("张四丰","123456","男","山西临汾",1000));
+        accountRepository.save(new Account("张五丰","123456","男","山西忻州",1000));
+        accountRepository.save(new Account("小明","123456","女","河北承德",3000));
+        accountRepository.save(new Account("小丽","123456","女","河北保定",9000.5));
 
-        return message;
+        Assert.assertEquals(5,accountRepository.findAll().size());//如果查询结果等于5
+        Assert.assertEquals(3,accountRepository.findAllByAddressLike("%西%").size());//地址中包含西的记录
+        Assert.assertEquals(3,accountRepository.findAllByBalanceGreaterThanEqual(3000).size());//大于等于3000的余额的记录
+        Assert.assertEquals(2,accountRepository.findAllByBalanceGreaterThan(3000).size());//大于3000的余额的记录
     }
 
-    @RequestMapping("findAllByPassword")
-    public List<Account> findAllByPassword(@RequestParam String password){
-        List<Account> accounts = accountRepository.findAllByPassword(password);
-        return accounts;
-    }
 }
 </pre>
 
-- 访问地址：
- - 保存接口
-	 http://localhost:8080/account/save?username="张三"&gender="W"&password="123456"&address="山西晋中"&balance=1001.1
-	 ![0](./springboot_img/save.jpg)
- 		- 注意：该地址访问多次的时候username要更改，因为username是唯一的
- - 查询接口
-     http://localhost:8080/account/findAllByPassword?password=123456
-     ![1](./springboot_img/findAllByPassword.jpg)
+# 3.基本查询
+
+ 基本查询也分为两种，一种是 Spring Data 默认已经实现，一种是根据查询的方法来自动解析成 SQL。
+
+## 1.预先生成方法
+
+ > Spring Data JPA 默认预先生成了一些基本的 CURD 的方法，如增、删、改等。
+
+ 继承 JpaRepository：
+
+<pre>
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+</pre>
+
+ 测试
+
+<pre>
+@Test
+public void testBaseQuery() {
+    userRepository.findAll();
+    userRepository.findOne(1l);
+    userRepository.save(user);
+    userRepository.delete(user);
+    userRepository.count();
+    userRepository.exists(1l);
+    // ...
+}
+</pre>
+
+## 2.自定义简单查询
+
+ > 自定义的简单查询就是根据方法名来自动生成 SQL，主要的语法是 findXXBy、readAXXBy、queryXXBy、countXXBy、getXXBy 后面跟属性名称：
+ <pre>User findByUserName(String userName);</pre>
+
+ > 也可以加一些关键字 And、Or：
+ <pre>User findByUserNameOrEmail(String username, String email);</pre>
+
+ > 修改、删除、统计也是类似语法：
+<pre>
+Long deleteById(Long id);
+Long countByUserName(String userName)
+</pre>
+ 
+ > 基本上 SQL 体系中的关键词都可以使用，如 LIKE、IgnoreCase、OrderBy。
+<pre>
+List<User> findByEmailLike(String email);
+User findByUserNameIgnoreCase(String userName);
+List<User> findByUserNameOrderByEmailDesc(String email);
+</pre>
+
+> 具体的关键字，使用方法和生产成 SQL 如下表所示：
+
+<table style="border-collapse: collapse; border-spacing: 0;background-color: transparent;">
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Sample</th>
+<th>JPQL snippet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>And</td>
+<td>findByLastnameAndFirstname</td>
+<td>… where x.lastname = ?1 and x.firstname = ?2</td>
+</tr>
+<tr>
+<td>Or</td>
+<td>findByLastnameOrFirstname</td>
+<td>… where x.lastname = ?1 or x.firstname = ?2</td>
+</tr>
+<tr>
+<td>Is,Equals</td>
+<td>findByFirstnameIs,findByFirstnameEquals</td>
+<td>… where x.firstname = ?1</td>
+</tr>
+<tr>
+<td>Between</td>
+<td>findByStartDateBetween</td>
+<td>… where x.startDate between ?1 and ?2</td>
+</tr>
+<tr>
+<td>LessThan</td>
+<td>findByAgeLessThan</td>
+<td>… where x.age &lt; ?1</td>
+</tr>
+<tr>
+<td>LessThanEqual</td>
+<td>findByAgeLessThanEqual</td>
+<td>… where x.age ⇐ ?1</td>
+</tr>
+<tr>
+<td>GreaterThan</td>
+<td>findByAgeGreaterThan</td>
+<td>… where x.age &gt; ?1</td>
+</tr>
+<tr>
+<td>GreaterThanEqual</td>
+<td>findByAgeGreaterThanEqual</td>
+<td>… where x.age &gt;= ?1</td>
+</tr>
+<tr>
+<td>After</td>
+<td>findByStartDateAfter</td>
+<td>… where x.startDate &gt; ?1</td>
+</tr>
+<tr>
+<td>Before</td>
+<td>findByStartDateBefore</td>
+<td>… where x.startDate &lt; ?1</td>
+</tr>
+<tr>
+<td>IsNull</td>
+<td>findByAgeIsNull</td>
+<td>… where x.age is null</td>
+</tr>
+<tr>
+<td>IsNotNull,NotNull</td>
+<td>findByAge(Is)NotNull</td>
+<td>… where x.age not null</td>
+</tr>
+<tr>
+<td>Like</td>
+<td>findByFirstnameLike</td>
+<td>… where x.firstname like ?1</td>
+</tr>
+<tr>
+<td>NotLike</td>
+<td>findByFirstnameNotLike</td>
+<td>… where x.firstname not like ?1</td>
+</tr>
+<tr>
+<td>StartingWith</td>
+<td>findByFirstnameStartingWith</td>
+<td>… where x.firstname like ?1 (parameter bound with appended %)</td>
+</tr>
+<tr>
+<td>EndingWith</td>
+<td>findByFirstnameEndingWith</td>
+<td>… where x.firstname like ?1 (parameter bound with prepended %)</td>
+</tr>
+<tr>
+<td>Containing</td>
+<td>findByFirstnameContaining</td>
+<td>… where x.firstname like ?1 (parameter bound wrapped in %)</td>
+</tr>
+<tr>
+<td>OrderBy</td>
+<td>findByAgeOrderByLastnameDesc</td>
+<td>… where x.age = ?1 order by x.lastname desc</td>
+</tr>
+<tr>
+<td>Not</td>
+<td>findByLastnameNot</td>
+<td>… where x.lastname &lt;&gt; ?1</td>
+</tr>
+<tr>
+<td>In</td>
+<td>findByAgeIn(Collection&lt;Age&gt; ages)</td>
+<td>… where x.age in ?1</td>
+</tr>
+<tr>
+<td>NotIn</td>
+<td>findByAgeNotIn(Collection&lt;Age&gt; age)</td>
+<td>… where x.age not in ?1</td>
+</tr>
+<tr>
+<td>TRUE</td>
+<td>findByActiveTrue()</td>
+<td>… where x.active = true</td>
+</tr>
+<tr>
+<td>FALSE</td>
+<td>findByActiveFalse()</td>
+<td>… where x.active = false</td>
+</tr>
+<tr>
+<td>IgnoreCase</td>
+<td>findByFirstnameIgnoreCase</td>
+<td>… where UPPER(x.firstame) = UPPER(?1)</td>
+</tr>
+</tbody>
+</table>
