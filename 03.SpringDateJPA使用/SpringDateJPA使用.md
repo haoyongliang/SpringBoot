@@ -1,6 +1,6 @@
-# Spring Boot技术栈(Spring Boot 对 Web 开发的支持)
+# Spring Boot技术栈(Spring Data JPA)
 
- - 本篇介绍 Spring Boot 对 JPA 开发的支持
+ - 本篇介绍 Spring Data JPA
 
 # 1.JPA介绍
 
@@ -170,26 +170,26 @@ public void testBaseQuery() {
 
 ## 2.自定义简单查询
 
- > 自定义的简单查询就是根据方法名来自动生成 SQL，主要的语法是 findXXBy、readAXXBy、queryXXBy、countXXBy、getXXBy 后面跟属性名称：
+ > 自定义的简单查询就是根据方法名来自动生成 SQL，主要的语法是 findXXBy、readAXXBy、queryXXBy、countXXBy、getXXBy 后面跟属性名称：</br>
  <pre>User findByUserName(String userName);</pre>
 
- > 也可以加一些关键字 And、Or：
+ > 也可以加一些关键字 And、Or：</br>
  <pre>User findByUserNameOrEmail(String username, String email);</pre>
 
- > 修改、删除、统计也是类似语法：
+ > 修改、删除、统计也是类似语法：</br>
 <pre>
 Long deleteById(Long id);
 Long countByUserName(String userName)
 </pre>
  
- > 基本上 SQL 体系中的关键词都可以使用，如 LIKE、IgnoreCase、OrderBy。
+ > 基本上 SQL 体系中的关键词都可以使用，如 LIKE、IgnoreCase、OrderBy。</br>
 <pre>
 List<User> findByEmailLike(String email);
 User findByUserNameIgnoreCase(String userName);
 List<User> findByUserNameOrderByEmailDesc(String email);
 </pre>
 
-> 具体的关键字，使用方法和生产成 SQL 如下表所示：
+> 具体的关键字，使用方法和生产成 SQL 如下表所示：</br>
 
 <table style="border-collapse: collapse; border-spacing: 0;background-color: transparent;">
 <thead>
@@ -322,3 +322,60 @@ List<User> findByUserNameOrderByEmailDesc(String email);
 </tr>
 </tbody>
 </table>
+
+## 复杂查询
+
+在实际的开发中需要用到分页、筛选、连表等查询的时候就需要特殊的方法或者自定义 SQL。
+
+### 1.分页查询
+
+ > 分页查询在实际使用中非常普遍了，Spring Data JPA 已经帮我们实现了分页的功能，在查询的方法中，需要传入参数 Pageable，当查询中有多个参数的时候 Pageable 建议做为最后一个参数传入：
+
+
+ 在AccountRepository类中添加
+<pre>
+Page&lt;Account&gt; findAllByAddressLike(String address, Pageable pageable);
+</pre>
+
+ 测试代码
+<pre>
+@Test
+public void pageTest(){
+    accountRepository.deleteAll();
+    accountRepository.save(new Account("张三丰","123456","男","山西太原",5000.5));
+    accountRepository.save(new Account("张四丰","123456","男","山西临汾",1000));
+    accountRepository.save(new Account("张五丰","123456","男","山西忻州",1000));
+    accountRepository.save(new Account("张六丰","123456","女","山西taiyuan",3000));
+    accountRepository.save(new Account("张七丰","123456","女","山西linfen",9000.5));
+    accountRepository.save(new Account("张八丰","123456","女","山西xinzhou",9000.5));
+
+    int currentPage = 0;//第几页,从0开始
+    int size = 4;//每页多少条数据
+    Sort sort = new Sort(Sort.Direction.DESC, "address");//按照address降序排序
+    Pageable pageable = new PageRequest(currentPage, size, sort);
+
+    Page<Account> page = accountRepository.findAllByAddressLike("%西%",pageable);
+    System.out.println("一共有"+page.getTotalPages()+"页");
+    System.out.println("一共有"+page.getTotalElements()+"条记录");
+    System.out.println("本页的数据是有");
+    for(Account account : page){
+        System.out.println(account.getUsername()+"\t"+account.getAddress());
+    }
+
+}
+</pre>
+
+ 输出结果
+<pre>
+一共有2页
+一共有6条记录
+本页的数据是有
+张五丰	山西忻州
+张三丰	山西太原
+张四丰	山西临汾
+张八丰	山西xinzhou
+</pre>
+
+### 2.限制查询
+
+ > 有时候我们只需要查询前 N 个元素，或者只取前一个实体。
