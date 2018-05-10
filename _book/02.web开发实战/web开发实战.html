@@ -57,7 +57,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../" />
+    <link rel="next" href="../03.SpringDataJPA使用/SpringDataJPA使用.html" />
     
     
     <link rel="prev" href="../01.快速上手SpringBoot/快速上手SpringBoot.html" />
@@ -130,7 +130,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="../">
+        <li class="chapter " data-level="1.4" data-path="../03.SpringDataJPA使用/SpringDataJPA使用.html">
+            
+                <a href="../03.SpringDataJPA使用/SpringDataJPA使用.html">
+            
+                    
+                    第三章 SpringDataJPA使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../">
             
                 <a href="../">
             
@@ -190,117 +203,120 @@
                                 
                                 <h1 id="spring-boot&#x6280;&#x672F;&#x6808;spring-boot-&#x5BF9;-web-&#x5F00;&#x53D1;&#x7684;&#x652F;&#x6301;">Spring Boot&#x6280;&#x672F;&#x6808;(Spring Boot &#x5BF9; Web &#x5F00;&#x53D1;&#x7684;&#x652F;&#x6301;)</h1>
 <ul>
-<li>&#x672C;&#x7BC7;&#x4ECB;&#x7ECD; Spring Boot&#x4E2D;spring-boot-starter-web &#x5BF9; Web &#x5F00;&#x53D1;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x4E3B;&#x8981;&#x5305;&#x62EC; RestFul&#x3001;&#x83B7;&#x53D6;&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x3001;&#x8FC7;&#x6EE4;&#x5668;&#x7B49;&#x529F;&#x80FD;&#x3002;</li>
+<li><p>&#x672C;&#x7BC7;&#x4ECB;&#x7ECD; Spring Boot&#x4E2D;spring-boot-starter-web &#x5BF9; Web &#x5F00;&#x53D1;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x4E3B;&#x8981;&#x5305;&#x62EC; RestFul&#x3001;&#x83B7;&#x53D6;&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x3001;&#x8FC7;&#x6EE4;&#x5668;&#x7B49;&#x529F;&#x80FD;&#x3002;</p>
+<p>&#x6CE8;&#xFF1A;spring-boot-starter-web &#x662F;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x6784;&#x5EFA; Web &#x7684; Starter &#xFF0C;&#x5305;&#x62EC;&#x6784;&#x5EFA; RESTful &#x670D;&#x52A1;&#x5E94;&#x7528;&#x3001;Spring MVC &#x5E94;&#x7528;&#x7B49;&#x3002;&#x5E76;&#x4E14;&#x4E0D;&#x9700;&#x8981;&#x989D;&#x5916;&#x914D;&#x7F6E;&#x5BB9;&#x5668;&#xFF0C;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528; Tomcat &#x4F5C;&#x4E3A;&#x5D4C;&#x5165;&#x5F0F;&#x5BB9;&#x5668;&#x3002;</p>
+</li>
 </ul>
 <h1 id="1&#x7F16;&#x5199;restful&#x98CE;&#x683C;&#x7684;&#x4EE3;&#x7801;">1.&#x7F16;&#x5199;RestFul&#x98CE;&#x683C;&#x7684;&#x4EE3;&#x7801;</h1>
 <p> &#x5728; Spring Boot &#x4F53;&#x7CFB;&#x4E2D;&#xFF0C;&#x5929;&#x7136;&#x5BF9; Json &#x652F;&#x6301;&#x3002;&#x65E0;&#x8BBA;&#x8FD4;&#x56DE;&#x96C6;&#x5408;&#x8FD8;&#x662F;&#x5BF9;&#x8C61;&#xFF0C;Spring Boot &#x5747;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x8F6C;&#x5316;&#x4E3A; Json &#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x7279;&#x522B;&#x9002;&#x5408;&#x6211;&#x4EEC;&#x7ED9;&#x5176;&#x4ED6;&#x7CFB;&#x7EDF;&#x63D0;&#x4F9B;&#x63A5;&#x53E3;&#x65F6;&#x4F7F;&#x7528;&#x3002;</p>
 <ol>
 <li><p>&#x5728;domain&#x5305;&#x4E0B;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;&#x5B9E;&#x4F53;&#x7C7B; Person&#xFF0C;Person &#x4FE1;&#x606F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre>
-
-public class Person {
-    private String name;//&#x59D3;&#x540D;
-    private int age;//&#x5E74;&#x9F84;
-    private String address;//&#x4F4F;&#x5740;
-    //&#x7701;&#x7565;&#x65E0;&#x53C2;&#x3001;&#x5168;&#x53C2;&#x6784;&#x9020;/getter&#x3001;setter&#x65B9;&#x6CD5;
-}
-
-</pre> 
+<pre><code> /**
+ *@author haoyongliang
+ */
+ public class Person {
+   private String name;//&#x59D3;&#x540D;
+   private int age;//&#x5E74;&#x9F84;
+   private String address;//&#x4F4F;&#x5740;
+   //&#x7701;&#x7565;&#x65E0;&#x53C2;&#x3001;&#x5168;&#x53C2;&#x6784;&#x9020;/getter&#x3001;setter&#x65B9;&#x6CD5;
+ }
+</code></pre><p> &#x200B;</p>
 </li>
+</ol>
+<ol>
 <li><p>&#x5728;web&#x5305;&#x4E0B;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;&#x7C7B; PersonController ,PersonController &#x4FE1;&#x606F;&#x5982;&#x4E0B;</p>
-<pre>
+<pre><code>/**
+*@autor haoyongliang
+*/
 @RestController
 @RequestMapping(&quot;personController&quot;)
 public class PersonController {
-    /**
-     * &#x6F14;&#x793A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x96C6;&#x5408;&#x5BF9;&#x8C61;&#x7684;JSON&#x6570;&#x636E;&#xFF0C;&#x8BBF;&#x95EE;&#x65B9;&#x5F0F; http://localhost:8080/personController/findAllPerson
-     * @return
-     */
-    @RequestMapping(&quot;findAllPerson&quot;)
-    public ArrayList<person> findAllPerson(){
-        ArrayList<person> persons = new ArrayList&lt;&gt;();
+  /**
+   * &#x6F14;&#x793A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x96C6;&#x5408;&#x5BF9;&#x8C61;&#x7684;JSON&#x6570;&#x636E;&#xFF0C;
+   * &#x8BBF;&#x95EE;&#x65B9;&#x5F0F; http://localhost:8080/personController/findAllPerson
+   * @return
+   */
+  @RequestMapping(&quot;findAllPerson&quot;)
+  public ArrayList&lt;Person&gt; findAllPerson(){
+      ArrayList&lt;Person&gt; persons = new ArrayList&lt;&gt;();
 
-        persons.add(new Person(&quot;JACK&quot;,23,&quot;&#x5C71;&#x897F;&#x664B;&#x4E2D;&#x6986;&#x6B21;&quot;));
-        persons.add(new Person(&quot;ROSE&quot;,23,&quot;&#x5C71;&#x897F;&#x592A;&#x539F;&#x5C0F;&#x5E97;&quot;));
-        persons.add(new Person(&quot;ROBIN&quot;,23,&quot;&#x5C71;&#x897F;&#x9633;&#x6CC9;&quot;));
+      persons.add(new Person(&quot;JACK&quot;,23,&quot;&#x5C71;&#x897F;&#x664B;&#x4E2D;&#x6986;&#x6B21;&quot;));
+      persons.add(new Person(&quot;ROSE&quot;,23,&quot;&#x5C71;&#x897F;&#x592A;&#x539F;&#x5C0F;&#x5E97;&quot;));
+      persons.add(new Person(&quot;ROBIN&quot;,23,&quot;&#x5C71;&#x897F;&#x9633;&#x6CC9;&quot;));
 
-        return persons;
-    }
+      return persons;
+  }
 
-    /**
-     * &#x6F14;&#x793A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5B9E;&#x4F53;&#x7C7B;&#x5BF9;&#x8C61;&#x7684;JSON&#x6570;&#x636E;&#x3002;&#x8BBF;&#x95EE;&#x65B9;&#x5F0F; http://localhost:8080/personController/findPerson
-     * @return
-     */
-    @RequestMapping(&quot;findPerson&quot;)
-    public Person findPerson(){
-        return new Person(&quot;JACK&quot;,23,&quot;&#x5C71;&#x897F;&#x664B;&#x4E2D;&#x6986;&#x6B21;&quot;);
-    }
+  /**
+   * &#x6F14;&#x793A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5B9E;&#x4F53;&#x7C7B;&#x5BF9;&#x8C61;&#x7684;JSON&#x6570;&#x636E;&#x3002;
+   * &#x8BBF;&#x95EE;&#x65B9;&#x5F0F; http://localhost:8080/personController/findPerson
+   * @return
+   */
+  @RequestMapping(&quot;findPerson&quot;)
+  public Person findPerson(){
+      return new Person(&quot;JACK&quot;,23,&quot;&#x5C71;&#x897F;&#x664B;&#x4E2D;&#x6986;&#x6B21;&quot;);
+  }
 }
-
-</person></person></pre></li>
+</code></pre></li>
 <li><p>&#x8BBF;&#x95EE; <a href="http://localhost:8080/personController/findAllPerson" target="_blank">http://localhost:8080/personController/findAllPerson</a> &#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5982;&#x4E0B;</p>
-<p> <img src="springboot_img/findAllStudent.jpg" alt="0"></p>
+<p><img src="springboot_img/findAllStudent.jpg" alt="0"></p>
 </li>
 <li><p>&#x8BBF;&#x95EE; <a href="http://localhost:8080/personController/findPerson" target="_blank">http://localhost:8080/personController/findPerson</a> &#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5982;&#x4E0B;</p>
-<p> <img src="springboot_img/findStudent.jpg" alt="1"></p>
+<p><img src="springboot_img/findStudent.jpg" alt="1"></p>
 <p><strong>&#x6CE8;&#xFF1A;</strong> &#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x770B;&#x8D77;&#x6765;&#x975E;&#x5E38;&#x7F8E;&#x89C2;&#x662F;&#x56E0;&#x4E3A;&#x4F7F;&#x7528;&#x4E86;Google&#x6D4F;&#x89C8;&#x5668;&#x63D2;&#x4EF6;JSON-handle&#xFF0C;&#x5B89;&#x88C5;&#x65B9;&#x6CD5;&#x53C2;&#x89C1;<a href="https://jingyan.baidu.com/article/c910274bb4b659cd361d2dad.html" title="&#x70B9;&#x6B64;&#x67E5;&#x770B;JSON-handle&#x7684;&#x5B89;&#x88C5;&#x65B9;&#x6CD5;" target="_blank">https://jingyan.baidu.com/article/c910274bb4b659cd361d2dad.html</a></p>
 </li>
 </ol>
 <h1 id="2post&#x548C;get&#x4F20;&#x53C2;&#x53C2;&#x6570;&#x6821;&#x9A8C;">2.POST&#x548C;GET&#x4F20;&#x53C2;&amp;&#x53C2;&#x6570;&#x6821;&#x9A8C;</h1>
 <h2 id="1post-&#x4F20;&#x53C2;">1.POST &#x4F20;&#x53C2;</h2>
 <ol>
-<li>&#x901A;&#x8FC7; @RequestMapping &#x6CE8;&#x89E3;&#x7684; method &#x5C5E;&#x6027;&#x6307;&#x5B9A;&#x8BF7;&#x6C42;&#x65B9;&#x5F0F;&#x4E3A;POST</li>
-<li><p>&#x7ED9;&#x65B9;&#x6CD5;&#x6DFB;&#x52A0;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x7528;&#x4E8E;&#x63A5;&#x6536;&#x5BA2;&#x6237;&#x7AEF;&#x8BF7;&#x6C42;&#x53D1;&#x9001;&#x8FC7;&#x6765;&#x7684;&#x6570;&#x636E;</p>
-<pre>
- /**
- * &#x5982;&#x679C;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x662F;Person&#x7C7B;&#x578B;&#xFF0C;&#x53EA;&#x8981;&#x662F; Person &#x7684;&#x5C5E;&#x6027;&#x90FD;&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x586B;&#x5145;&#x5230; person &#x5BF9;&#x8C61;&#x4E2D;
- * &#x8BBF;&#x95EE;&#x8DEF;&#x5F84;http://localhost:8080/personController/showPersonInfo1
- * @param person
- * @return
- */
+<li><p>&#x901A;&#x8FC7; @RequestMapping &#x6CE8;&#x89E3;&#x7684; method &#x5C5E;&#x6027;&#x6307;&#x5B9A;&#x8BF7;&#x6C42;&#x65B9;&#x5F0F;&#x4E3A;POST</p>
+</li>
+<li><p>&#x7ED9;&#x65B9;&#x6CD5;&#x6DFB;&#x52A0;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x7528;&#x4E8E;&#x63A5;&#x6536;&#x5BA2;&#x6237;&#x7AEF;&#x8BF7;&#x6C42;&#x53D1;&#x9001;&#x8FC7;&#x6765;&#x7684;&#x6570;</p>
+<pre><code>/**
+* &#x5982;&#x679C;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x662F;Person&#x7C7B;&#x578B;&#xFF0C;&#x53EA;&#x8981;&#x662F; Person &#x7684;&#x5C5E;&#x6027;&#x90FD;&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x586B;&#x5145;&#x5230; person &#x5BF9;&#x8C61;&#x4E2D;
+* &#x8BBF;&#x95EE;&#x8DEF;&#x5F84;http://localhost:8080/personController/showPersonInfo1
+*/
 @RequestMapping(value = &quot;showPersonInfo1&quot;, method = RequestMethod.POST)
 public Person showPersonInfo(Person person){
-    return person;
+ return person;
 }
-
+&#x200A;
 /**
- * &#x63A5;&#x6536;name&#xFF0C;age&#xFF0C;address&#x53C2;&#x6570;&#x5E76;&#x624B;&#x52A8;&#x5C06;&#x5176;&#x5C01;&#x88C5;&#x6210;Person&#x5BF9;&#x8C61;
- * &#x8BBF;&#x95EE;&#x8DEF;&#x5F84;http://localhost:8080/personController/showPersonInfo2
- * @param person
- * @return
- */
+* &#x63A5;&#x6536;name&#xFF0C;age&#xFF0C;address&#x53C2;&#x6570;&#x5E76;&#x624B;&#x52A8;&#x5C06;&#x5176;&#x5C01;&#x88C5;&#x6210;Person&#x5BF9;&#x8C61;
+* &#x8BBF;&#x95EE;&#x8DEF;&#x5F84;http://localhost:8080/personController/showPersonInfo2
+* @
+* m person
+* @return
+*/
 @RequestMapping(value = &quot;showPersonInfo2&quot;, method = RequestMethod.POST)
 public Person showPersonInfo(String name, int age, String address){
-    Person p = new Person(name,age,address);
-    return p;
+ Person p = new Person(name,age,address);
+ return p;
 }
-</pre>
-
+</code></pre><p>&#x200B;</p>
 <p><strong>&#x6CE8;&#xFF1A;</strong> &#x5728;&#x4F7F;&#x7528;&#x7B2C;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x63A5;&#x53D7;&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;<strong>Person&#x7C7B;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x4E2A;&#x65E0;&#x53C2;&#x6784;&#x9020;</strong>&#xFF0C;&#x6846;&#x67B6;&#x5185;&#x90E8;&#x5148;&#x901A;&#x8FC7;&#x65E0;&#x53C2;&#x6784;&#x9020;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;set&#x65B9;&#x6CD5;&#x8D4B;&#x503C;&#xFF0C;&#x6700;&#x540E;&#x5C06;&#x5BF9;&#x8C61;&#x5F53;&#x4F5C; <em>&#x5B9E;&#x9645;&#x53C2;&#x6570;</em> &#x8D4B;&#x503C;&#x7ED9; <em>&#x5F62;&#x5F0F;&#x53C2;&#x6570;</em></p>
 </li>
 </ol>
 <h2 id="2get-&#x4F20;&#x53C2;">2.GET &#x4F20;&#x53C2;</h2>
 <ol>
-<li>@RequestMapping &#x6CE8;&#x89E3;&#x7684;method&#x5C5E;&#x6027;&#x9ED8;&#x8BA4;&#x5C31;&#x662F;GET&#x8BF7;&#x6C42;&#xFF0C;&#x5F53;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x624B;&#x52A8;&#x6307;&#x5B9A;</li>
+<li><p>@RequestMapping &#x6CE8;&#x89E3;&#x7684;method&#x5C5E;&#x6027;&#x9ED8;&#x8BA4;&#x5C31;&#x662F;GET&#x8BF7;&#x6C42;&#xFF0C;&#x5F53;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x624B;&#x52A8;&#x6307;&#x5B9A;</p>
+</li>
 <li><p>&#x4F7F;&#x7528; @RequestParam &#x6216;&#x8005; @PathVariable &#x6765;&#x63A5;&#x6536;&#x53C2;&#x6570;</p>
-<pre>
-/**
- * &#x8BBF;&#x95EE;&#x8DEF;&#x5F84;http://localhost:8080/personController/getDetails/A1001?param1=&quot;&#x7F8E;&#x56FD;&quot;&#xB6;m2=&quot;&#x7EBD;&#x7EA6;&quot;
- * @param id
- * @param param1
- * @param param2
- * @return
- */
-@RequestMapping(&quot;/getDetails/{id}&quot;)
-public String getDetails(@PathVariable(value=&quot;id&quot;) String id,
-                         @RequestParam(value=&quot;param1&quot;, required=true) String param1,
-                         @RequestParam(value=&quot;param2&quot;, required=false) String param2){
-
-    return &quot;&#x8BBF;&#x95EE;&#x6210;&#x529F;:id=&quot;+id+&quot;,param1=&quot;+param1+&quot;,param2=&quot;+param2;
-}
-</pre>
-
-<p>&#x7ED3;&#x679C;&#x5982;&#x4E0B;</p>
+<pre><code> /**
+  * &#x8BBF;&#x95EE;&#x8DEF;&#x5F84;http://localhost:8080/personController/getDetails/A1001?param1=&quot;&#x7F8E;&#x56FD;&quot;&#xB6;m2=&quot;&#x7EBD;&#x7EA6;&quot;
+  * @param id
+  * @param param1
+  * @param param2
+  * @return
+  */
+ @RequestMapping(&quot;/getDetails/{id}&quot;)
+ public String getDetails(@PathVariable(value=&quot;id&quot;) String id,
+                          @RequestParam(value=&quot;param1&quot;, required=true) String param1,
+                          @RequestParam(value=&quot;param2&quot;, required=false) String param2){
+ &#x200A;
+     return &quot;&#x8BBF;&#x95EE;&#x6210;&#x529F;:id=&quot;+id+&quot;,param1=&quot;+param1+&quot;,param2=&quot;+param2;
+ }
+</code></pre><p>   &#x7ED3;&#x679C;&#x5982;&#x4E0B;</p>
 <p><img src="springboot_img/getDetails.jpg" alt="1"></p>
 </li>
 <li><p><strong>@RequestParam</strong>&#x548C;<strong>@PathVariable</strong>&#x6CE8;&#x89E3;&#x7684;&#x4F5C;&#x7528;</p>
@@ -312,10 +328,11 @@ public String getDetails(@PathVariable(value=&quot;id&quot;) String id,
 <li>defaultValue &#x5982;&#x679C;&#x672C;&#x6B21;&#x8BF7;&#x6C42;&#x6CA1;&#x6709;&#x643A;&#x5E26;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x6216;&#x8005;&#x53C2;&#x6570;&#x4E3A;&#x7A7A;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4F1A;&#x542F;&#x7528;&#x9ED8;&#x8BA4;&#x503C;</li>
 <li>name &#x7ED1;&#x5B9A;&#x672C;&#x6B21;&#x53C2;&#x6570;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x8981;&#x8DDF;URL&#x4E0A;&#x9762;&#x7684;&#x4E00;&#x6837;</li>
 <li>required &#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x4E0D;&#x662F;&#x5FC5;&#x987B;&#x7684;</li>
-<li>value &#x8DDF;name&#x4E00;&#x6837;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x662F;name&#x5C5E;&#x6027;&#x7684;&#x4E00;&#x4E2A;&#x522B;&#x540D; </li>
-</ol>
+<li><p>value &#x8DDF;name&#x4E00;&#x6837;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x662F;name&#x5C5E;&#x6027;&#x7684;&#x4E00;&#x4E2A;&#x522B;&#x540D; </p>
 </li>
-<li><p><strong>&#x5EFA;&#x8BAE;&#xFF1A;</strong>&#x4F5C;&#x4E3A;&#x4E00;&#x79CD;&#x6700;&#x4F73;&#x5B9E;&#x8DF5;&#xFF0C;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x90FD;&#x5728;&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x65B9;&#x5F0F;&#x63A8;&#x8350;&#x3002;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8BC6;&#x522B;&#x8D44;&#x6E90;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x8DEF;&#x5F84;&#x53D8;&#x91CF;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x6392;&#x5E8F;&#x6216;&#x8FC7;&#x6EE4;&#x9879;&#x76EE;&#xFF0C;&#x90A3;&#x4E48;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#x3002;    </p>
+<li><p><strong>&#x5EFA;&#x8BAE;&#xFF1A;</strong>&#x4F5C;&#x4E3A;&#x4E00;&#x79CD;&#x6700;&#x4F73;&#x5B9E;&#x8DF5;&#xFF0C;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x90FD;&#x5728;&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x65B9;&#x5F0F;&#x63A8;&#x8350;&#x3002;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8BC6;&#x522B;&#x8D44;&#x6E90;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x8DEF;&#x5F84;&#x53D8;&#x91CF;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x6392;&#x5E8F;&#x6216;&#x8FC7;&#x6EE4;&#x9879;&#x76EE;&#xFF0C;&#x90A3;&#x4E48;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#x3002;</p>
+</li>
+</ol>
 </li>
 </ul>
 </li>
@@ -323,55 +340,55 @@ public String getDetails(@PathVariable(value=&quot;id&quot;) String id,
 <h2 id="3&#x53C2;&#x6570;&#x6821;&#x9A8C;">3.&#x53C2;&#x6570;&#x6821;&#x9A8C;</h2>
 <p> &#x53C2;&#x6570;&#x6821;&#x9A8C;&#x5728;&#x6211;&#x4EEC;&#x65E5;&#x5E38;&#x5F00;&#x53D1;&#x4E2D;&#x975E;&#x5E38;&#x5E38;&#x89C1;&#xFF0C;&#x6700;&#x57FA;&#x672C;&#x7684;&#x6821;&#x9A8C;&#x6709;&#x5224;&#x65AD;&#x5C5E;&#x6027;&#x662F;&#x5426;&#x4E3A;&#x7A7A;&#x3001;&#x957F;&#x5EA6;&#x662F;&#x5426;&#x7B26;&#x5408;&#x8981;&#x6C42;&#x7B49;&#xFF0C;&#x5728;&#x4F20;&#x7EDF;&#x7684;&#x5F00;&#x53D1;&#x6A21;&#x5F0F;&#x4E2D;&#x9700;&#x8981;&#x5199;&#x4E00;&#x5806;&#x7684; if else &#x6765;&#x5904;&#x7406;&#x8FD9;&#x4E9B;&#x903B;&#x8F91;&#xFF0C;&#x5F88;&#x7E41;&#x7410;&#xFF0C;&#x6548;&#x7387;&#x4E5F;&#x4F4E;&#x3002;&#x4F7F;&#x7528; @Valid + BindingResult &#x5C31;&#x53EF;&#x4EE5;&#x4F18;&#x96C5;&#x5730;&#x89E3;&#x51B3;&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x770B;&#x770B;&#x793A;&#x4F8B;&#xFF1A;</p>
 <ol>
-<li>&#x9996;&#x5148;&#x5728; PersonController &#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x4FDD;&#x5B58;&#x7528;&#x6237;&#x7684;&#x65B9;&#x6CD5; savePerson&#xFF0C;&#x53C2;&#x6570;&#x4E3A; Person&#xFF0C;&#x73B0;&#x5728;&#x9700;&#x8981;&#x5BF9;&#x53C2;&#x6570; Person  &#x505A;&#x6821;&#x9A8C;&#xFF1A;<pre>
-public class Person {
-    @NotEmpty(message=&quot;&#x59D3;&#x540D;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
-    private String name;
-    @Max(value = 100,message = &quot;&#x5E74;&#x9F84;&#x4E0D;&#x80FD;&#x5927;&#x4E8E;100&quot;)
-    @Min(value = 1,message = &quot;&#x5E74;&#x9F84;&#x4E0D;&#x80FD;&#x5C0F;&#x4E8E;1&quot;)
-    private int age;
-    @Length(message = &quot;&#x5730;&#x5740;&#x957F;&#x5EA6;&#x5E94;&#x8BE5;&#x5728;7-10&#x4E2A;&#x6C49;&#x5B57;&#x4E4B;&#x95F4;&quot;,min = 14,max=20)
-    @NotEmpty(message = &quot;&#x5730;&#x5740;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
-    private String address;
-    //&#x7701;&#x7565;&#x65E0;&#x53C2;&#x3001;&#x5168;&#x53C2;&#x6784;&#x9020;/getter&#x3001;setter&#x65B9;&#x6CD5;
-}
-</pre></li>
+<li><p>&#x9996;&#x5148;&#x5728; PersonController &#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x4FDD;&#x5B58;&#x7528;&#x6237;&#x7684;&#x65B9;&#x6CD5; savePerson&#xFF0C;&#x53C2;&#x6570;&#x4E3A; Person&#xFF0C;&#x73B0;&#x5728;&#x9700;&#x8981;&#x5BF9;&#x53C2;&#x6570; Person  &#x505A;&#x6821;&#x9A8C;&#xFF1A;</p>
+<pre><code> public class Person {
+     @NotEmpty(message=&quot;&#x59D3;&#x540D;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
+     private String name;
+     @Max(value = 100,message = &quot;&#x5E74;&#x9F84;&#x4E0D;&#x80FD;&#x5927;&#x4E8E;100&quot;)
+     @Min(value = 1,message = &quot;&#x5E74;&#x9F84;&#x4E0D;&#x80FD;&#x5C0F;&#x4E8E;1&quot;)
+     private int age;
+     @Length(message = &quot;&#x5730;&#x5740;&#x957F;&#x5EA6;&#x5E94;&#x8BE5;&#x5728;7-10&#x4E2A;&#x6C49;&#x5B57;&#x4E4B;&#x95F4;&quot;,min = 14,max=20)
+     @NotEmpty(message = &quot;&#x5730;&#x5740;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
+     private String address;
+     //&#x7701;&#x7565;&#x65E0;&#x53C2;&#x3001;&#x5168;&#x53C2;&#x6784;&#x9020;/getter&#x3001;setter&#x65B9;&#x6CD5;
+ }
+</code></pre><p> &#x200B;</p>
+</li>
 <li><p>Spring Boot &#x7684;&#x53C2;&#x6570;&#x6821;&#x9A8C;&#x5176;&#x5B9E;&#x662F;&#x4F9D;&#x8D56;&#x4E8E; hibernate-validator &#x6765;&#x8FDB;&#x884C;&#x3002;&#x73B0;&#x5728;&#x6A21;&#x62DF;&#x5BF9;&#x53C2;&#x6570; User &#x8FDB;&#x884C;&#x53C2;&#x6570;&#x6821;&#x9A8C;&#xFF0C;&#x4F7F;&#x7528; @Valid + BindingResult&#xFF0C;&#x6821;&#x9A8C;&#x540E;&#x5982;&#x679C;&#x6709;&#x9519;&#x8BEF;&#x5C06;&#x9519;&#x8BEF;&#x6253;&#x5370;&#x51FA;&#x6765;&#xFF0C;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre>
-@RequestMapping(&quot;savePerson&quot;)
+<pre><code>@RequestMapping(&quot;savePerson&quot;)
 public String savePerson(@Valid Person person, BindingResult result){
     String message = &quot;&quot;;
     if(result.hasErrors()){
-        List<objecterror> allErrors = result.getAllErrors();
+        List allErrors = result.getAllErrors();
         for (ObjectError error : allErrors) {
             message += error.getDefaultMessage();
         }
     }
-
+&#x200A;
     if(message==&quot;&quot;){
         message = &quot;&#x6DFB;&#x52A0;&#x6210;&#x529F;&quot;;
     }
     return message;
 }
-</objecterror></pre></li>
+</code></pre><p>&#x200B;</p>
+</li>
 <li><p>&#x8BBF;&#x95EE;<a href="http://localhost:8080/personController/savePerson&#xFF0C;&#x7ED3;&#x679C;&#x5982;&#x4E0B;" target="_blank">http://localhost:8080/personController/savePerson&#xFF0C;&#x7ED3;&#x679C;&#x5982;&#x4E0B;</a></p>
 <p><img src="springboot_img/valid.jpg" alt="1"></p>
-</li>
-<li><p><strong>&#x9644;&#xFF1A;</strong>java&#x6821;&#x9A8C;api&#x6240;&#x63D0;&#x4F9B;&#x7684;&#x6821;&#x9A8C;&#x6CE8;&#x89E3;</p>
-<ul>
+<ol>
+<li><strong>&#x9644;&#xFF1A;</strong>java&#x6821;&#x9A8C;api&#x6240;&#x63D0;&#x4F9B;&#x7684;&#x6821;&#x9A8C;&#x6CE8;&#x89E3;</li>
 <li>@AssertFalse &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x4E3A; boolean&#x7C7B;&#x578B;,&#x5E76;&#x4E14;&#x503C;&#x4E3A; false</li>
 <li>@AssertTrue &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x4E3A; boolean&#x7C7B;&#x578B;,&#x5E76;&#x4E14;&#x503C;&#x4E3A; true</li>
 <li>Digits &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x662F;&#x6570;&#x5B57;,&#x5E76;&#x4E14;&#x5B83;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x6709;&#x6307;&#x5B9A;&#x7684;&#x4F4D;&#x6570;</li>
 <li>Future &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x662F;&#x4E00;&#x4E2A;&#x5C06;&#x6765;&#x7684;&#x65E5;&#x671F;</li>
 <li>Past &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x662F;&#x4E00;&#x4E2A;&#x5DF2;&#x7ECF;&#x8FC7;&#x53BB;&#x7684;&#x65E5;&#x671F;</li>
-<li>Min &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x662F;&#x6570;&#x5B57;,&#x5E76;&#x4E14;&#x5B83;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x5C0F;&#x4E8E;&#x7B49;&#x5EA6;&#x7ED9;&#x5B9A;&#x7684;&#x503C;</li>
-<li>Max &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x662F;&#x6570;&#x5B57;,&#x5E76;&#x4E14;&#x5B83;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x5927;&#x4E8E;&#x7B49;&#x5EA6;&#x7ED9;&#x5B9A;&#x7684;&#x503C;</li>
+<li>Min &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x662F;&#x6570;&#x5B57;,&#x5E76;&#x4E14;&#x5B83;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E;&#x7ED9;&#x5B9A;&#x7684;&#x503C;</li>
+<li>Max &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x662F;&#x6570;&#x5B57;,&#x5E76;&#x4E14;&#x5B83;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;&#x7ED9;&#x5B9A;&#x7684;&#x503C;</li>
 <li>NotNull &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x4E0D;&#x80FD;&#x4E3A;null</li>
 <li>NotEmpty &#x6240;&#x6CE8;&#x89E3;&#x5143;&#x7D20;&#x4E0D;&#x80FD;&#x4E3A; &#x7A7A;(&#x6CE8;&#x610F;&#x4E0D;&#x662F;null)</li>
 <li>Null &#x505A;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x4E3A;null</li>
 <li>Size &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x662F;String,&#x96C6;&#x5408;,&#x6216;&#x6570;&#x7EC4;,&#x5E76;&#x4E14;&#x5B83;&#x7684;&#x957F;&#x5EA6;&#x8981;&#x7B26;&#x5408;&#x7ED9;&#x5B9A;&#x7684;&#x8303;&#x56F4;</li>
 <li>Pattern &#x6240;&#x6CE8;&#x89E3;&#x7684;&#x5143;&#x7D20;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x5339;&#x914D;&#x7ED9;&#x5B9A;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</li>
-</ul>
+</ol>
 </li>
 </ol>
 <h1 id="3&#x81EA;&#x5B9A;&#x4E49;&#x8FC7;&#x6EE4;&#x5668;">3.&#x81EA;&#x5B9A;&#x4E49;&#x8FC7;&#x6EE4;&#x5668;</h1>
@@ -381,14 +398,13 @@ public String savePerson(@Valid Person person, BindingResult result){
 <ol>
 <li>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7C7B;&#x5B9E;&#x73B0; javax.servlet.Filter &#x63A5;&#x53E3;</li>
 <li><p>&#x5C06;&#x521B;&#x5EFA;&#x7684;&#x7C7B;&#x6302;&#x8F7D;&#x5230;&#x8FC7;&#x6EE4;&#x5668;&#x94FE;&#x4E0A;</p>
-<p> a. &#x521B;&#x5EFA;MyFilter&#x7C7B;&#x5B9E;&#x73B0;Filter&#x63A5;&#x53E3;</p>
-<pre>
-public class MyFilter implements Filter {
+<p>a. &#x521B;&#x5EFA;MyFilter&#x7C7B;&#x5B9E;&#x73B0;Filter&#x63A5;&#x53E3;</p>
+<pre><code>public class MyFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+&#x200A;
     }
-
+&#x200A;
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -396,16 +412,14 @@ public class MyFilter implements Filter {
         System.out.println(&quot;&#x5F53;&#x524D;&#x5BA2;&#x6237;&#x7AEF;&#x6B63;&#x5728;&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x7684;&#x8DEF;&#x5F84;&#x662F;:&quot; + req.getRequestURI());
         filterChain.doFilter(request, response);
     }
-
+&#x200A;
     @Override
     public void destroy() {
-
+&#x200A;
     }
 }
-</pre>
- b. &#x901A;&#x8FC7;@Configuration + @Bean &#x6CE8;&#x89E3;&#x5C06;&#x8FC7;&#x6EE4;&#x5668;&#x6CE8;&#x5165;&#x5230; IOC &#x5BB9;&#x5668;&#x4E2D;&#xFF0C;&#x5E76;&#x901A;&#x8FC7; setOrder &#x65B9;&#x6CD5;&#x8BBE;&#x7F6E;&#x8FC7;&#x6EE4;&#x5668;&#x4F4D;&#x7F6E;&#xFF08;&#x8FC7;&#x6EE4;&#x5668;&#x94FE;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#xFF09;
-<pre>
-@Configuration
+</code></pre><p> b. &#x901A;&#x8FC7;@Configuration + @Bean &#x6CE8;&#x89E3;&#x5C06;&#x8FC7;&#x6EE4;&#x5668;&#x6CE8;&#x5165;&#x5230; IOC &#x5BB9;&#x5668;&#x4E2D;&#xFF0C;&#x5E76;&#x901A;&#x8FC7; setOrder &#x65B9;&#x6CD5;&#x8BBE;&#x7F6E;&#x8FC7;&#x6EE4;&#x5668;&#x4F4D;&#x7F6E;&#xFF08;&#x8FC7;&#x6EE4;&#x5668;&#x94FE;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#xFF09;</p>
+<pre><code>@Configuration
 public class MyFilterConfiguration {
     @Bean
     public FilterRegistrationBean myFilterRegistration() {
@@ -417,31 +431,29 @@ public class MyFilterConfiguration {
         registration.setOrder(1);//&#x8BBE;&#x7F6E;&#x4F18;&#x5148;&#x7EA7;
         return registration;
     }
-
+&#x200A;
 }
-</pre>
-
-<p>c. &#x91CD;&#x65B0;&#x542F;&#x52A8;&#x9879;&#x76EE;,&#x8BBF;&#x95EE;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#xFF0C;&#x4F1A;&#x53D1;&#x73B0;&#x5728;&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#x90FD;&#x4F1A;&#x6253;&#x5370;
-<pre>&#x5F53;&#x524D;&#x5BA2;&#x6237;&#x7AEF;&#x6B63;&#x5728;&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x7684;&#x8DEF;&#x5F84;&#x662F;:....</pre></p>
-<h2 id="3-configuration&#x548C;bean&#x6CE8;&#x89E3;&#x8BF4;&#x660E;">3. <strong>@Configuration&#x548C;@Bean&#x6CE8;&#x89E3;&#x8BF4;&#x660E;:</strong></h2>
+</code></pre><p>c. &#x91CD;&#x65B0;&#x542F;&#x52A8;&#x9879;&#x76EE;,&#x8BBF;&#x95EE;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#xFF0C;&#x4F1A;&#x53D1;&#x73B0;&#x5728;&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#x90FD;&#x4F1A;&#x6253;&#x5370;</p>
+<pre><code>&#x5F53;&#x524D;&#x5BA2;&#x6237;&#x7AEF;&#x6B63;&#x5728;&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x7684;&#x8DEF;&#x5F84;&#x662F;:....
+</code></pre><h2 id="3-configuration&#x548C;bean&#x6CE8;&#x89E3;&#x8BF4;&#x660E;">3. <strong>@Configuration&#x548C;@Bean&#x6CE8;&#x89E3;&#x8BF4;&#x660E;:</strong></h2>
 </li>
 <li><p>@Configuration &#x6807;&#x6CE8;&#x5728;&#x7C7B;&#x4E0A;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x628A;&#x8BE5;&#x7C7B;&#x4F5C;&#x4E3A;spring&#x7684;xml&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x7684; &lt;beans&gt;&#xFF0C;&#x4F5C;&#x7528;&#x4E3A;&#xFF1A;&#x914D;&#x7F6E;spring&#x5BB9;&#x5668;(&#x5E94;&#x7528;&#x4E0A;&#x4E0B;&#x6587;),&#x4E0A;&#x6587;&#x4E2D;&#x5728;MyFilterConfiguration&#x7C7B;&#x4E0A;&#x6DFB;&#x52A0;&#x4E86;&#x8BE5;&#x6CE8;&#x89E3;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;beans.xml&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x91CC;&#x9762;&#x7684;&#x5185;&#x5BB9;&#x662F;</p>
-<p>```XML</p>
-<pre><code>&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xmlns:context=&quot;http://www.springframework.org/schema/context&quot; xmlns:jdbc=&quot;http://www.springframework.org/schema/jdbc&quot;  
-    xmlns:jee=&quot;http://www.springframework.org/schema/jee&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
-    xmlns:util=&quot;http://www.springframework.org/schema/util&quot; xmlns:task=&quot;http://www.springframework.org/schema/task&quot; xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
-    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
-    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd&quot; default-lazy-init=&quot;false&quot; &gt;
-</code></pre></li>
-</ol>
-<pre><code>    &lt;/beans&gt;
+<p>```</p>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task" xsi:schemalocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd" default-lazy-init="false">
 
+
+</beans></li>
+</ol>
+<pre><code>&lt;/beans&gt;
 ```
+
+&#x200B;
 </code></pre><ol>
 <li><p>@Bean&#x6807;&#x6CE8;&#x5728;&#x65B9;&#x6CD5;&#x4E0A;(&#x8FD4;&#x56DE;&#x67D0;&#x4E2A;&#x5B9E;&#x4F8B;&#x7684;&#x65B9;&#x6CD5;)&#xFF0C;&#x7B49;&#x4EF7;&#x4E8E;spring&#x7684;xml&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&lt;bean&gt;&#xFF0C;&#x4F5C;&#x7528;&#x4E3A;&#xFF1A;&#x6CE8;&#x518C;bean&#x5BF9;&#x8C61;&#x3002;</p>
 <ul>
@@ -455,29 +467,27 @@ public class MyFilterConfiguration {
 <h1 id="4&#x5C5E;&#x6027;&#x914D;&#x7F6E;&#x548C;&#x81EA;&#x5B9A;&#x4E49;&#x5C5E;&#x6027;&#x914D;&#x7F6E;">4.&#x5C5E;&#x6027;&#x914D;&#x7F6E;&#x548C;&#x81EA;&#x5B9A;&#x4E49;&#x5C5E;&#x6027;&#x914D;&#x7F6E;</h1>
 <p>  &#x5982;&#x679C;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x81EA;&#x5B9A;&#x4E49;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF0C;spring boot &#x63D0;&#x4F9B;&#x4E86;&#x5F88;&#x7B80;&#x4FBF;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5728;application.properties &#x4E2D;&#x6DFB;&#x52A0;&#x4FEE;&#x6539;&#x76F8;&#x5E94;&#x7684;&#x914D;&#x7F6E;&#x3002;&#xFF08;spring boot&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x8BFB;&#x53D6;application.properties&#x8FD9;&#x4EFD;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF09;</p>
 <h2 id="1&#x5C5E;&#x6027;&#x914D;&#x7F6E;">1.&#x5C5E;&#x6027;&#x914D;&#x7F6E;</h2>
-<p>  &#x4F8B;&#x5982; : spring boot &#x5F00;&#x53D1;web&#x5E94;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9ED8;&#x8BA4;tomcat&#x7684;&#x542F;&#x52A8;&#x7AEF;&#x53E3;&#x4E3A;8080&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x7684;&#x7AEF;&#x53E3;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x5728;application.properties &#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x8BB0;&#x5F55;&#xFF1A;
-    <pre>server.port=8888</pre>
-  &#x91CD;&#x542F;&#x9879;&#x76EE;&#xFF0C;&#x542F;&#x52A8;&#x65E5;&#x5FD7;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF1A;Tomcat started on port(s): 8888 (http) &#x542F;&#x52A8;&#x7AEF;&#x53E3;&#x4E3A;8888&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8BBF;&#x95EE; <a href="http://localhost:8888" target="_blank">http://localhost:8888</a> &#x80FD;&#x6B63;&#x5E38;&#x8BBF;&#x95EE;&#x3002;</p>
+<p>  &#x4F8B;&#x5982; : spring boot &#x5F00;&#x53D1;web&#x5E94;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9ED8;&#x8BA4;tomcat&#x7684;&#x542F;&#x52A8;&#x7AEF;&#x53E3;&#x4E3A;8080&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x7684;&#x7AEF;&#x53E3;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x5728;application.properties &#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x8BB0;&#x5F55;&#xFF1A;</p>
+<pre><code>server.port=8888
+</code></pre><p>&#x91CD;&#x542F;&#x9879;&#x76EE;&#xFF0C;&#x542F;&#x52A8;&#x65E5;&#x5FD7;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF1A;Tomcat started on port(s): 8888 (http) &#x542F;&#x52A8;&#x7AEF;&#x53E3;&#x4E3A;8888&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8BBF;&#x95EE; <a href="http://localhost:8888" target="_blank">http://localhost:8888</a> &#x80FD;&#x6B63;&#x5E38;&#x8BBF;&#x95EE;&#x3002;</p>
 <h2 id="2&#x81EA;&#x5B9A;&#x4E49;&#x5C5E;&#x6027;&#x914D;&#x7F6E;">2.&#x81EA;&#x5B9A;&#x4E49;&#x5C5E;&#x6027;&#x914D;&#x7F6E;</h2>
 <p>  &#x5728;application.properties&#x4E2D;&#x9664;&#x4E86;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x53EF;&#x4EE5;&#x5728;&#x8FD9;&#x914D;&#x7F6E;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x5E76;&#x5728;&#x5B9E;&#x4F53;bean&#x4E2D;&#x52A0;&#x8F7D;&#x51FA;&#x6765;&#x3002;</p>
 <ol>
-<li>&#x5728;application.properties&#x4E2D;&#x6DFB;&#x52A0;&#x81EA;&#x5B9A;&#x4E49;&#x5C5E;&#x6027;&#x914D;&#x7F6E;<pre>
-cn.itcast.username = &quot;LuRenJia&quot;
-cn.itcast.password = &quot;admin&quot;
-</pre></li>
+<li><p>&#x5728;application.properties&#x4E2D;&#x6DFB;&#x52A0;&#x81EA;&#x5B9A;&#x4E49;&#x5C5E;&#x6027;&#x914D;&#x7F6E;</p>
+<pre><code>cn.itcast.username = LuRenJia
+cn.itcast.password = admin
+</code></pre><p>&#x200B;</p>
+</li>
 <li><p>&#x7F16;&#x5199;Bean&#x7C7B;&#xFF0C;&#x52A0;&#x8F7D;&#x5C5E;&#x6027;</p>
-<pre>
-@Component
+<pre><code>@Component
 @ConfigurationProperties(prefix = &quot;cn.itcast&quot;)
 public class User {
-   private String username;
-   private String password;
-
-   //&#x7701;&#x7565;getter/setter&#x65B9;&#x6CD5;
+  private String username;
+  private String password;
+&#x200A;
+  //&#x7701;&#x7565;getter/setter&#x65B9;&#x6CD5;
 }
-</pre>
-
-<p>&#x8FD9;&#x91CC;&#x5F15;&#x5165;ConfigurationProperties&#x6CE8;&#x89E3;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x62A5;&#x9519;&#xFF0C;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x4F9D;&#x8D56;</p>
+</code></pre><p>&#x8FD9;&#x91CC;&#x5F15;&#x5165;ConfigurationProperties&#x6CE8;&#x89E3;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x62A5;&#x9519;&#xFF0C;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x4F9D;&#x8D56;</p>
 <pre><code>&lt;dependency&gt;
    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
    &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
@@ -485,20 +495,24 @@ public class User {
 &lt;/dependency&gt;
 </code></pre></li>
 <li><p>&#x7F16;&#x5199;&#x63A7;&#x5236;&#x5668;&#x770B;&#x770B;&#x662F;&#x5426;&#x5C06;&#x6570;&#x636E;&#x6210;&#x529F;&#x52A0;&#x8F7D;&#x5230;User&#x4E2D;</p>
-<pre>
-@RestController
+<pre><code>@RestController
 @RequestMapping(&quot;userController&quot;)
 public class UserController {
-   @Autowired
-   private User user;
-
-   @RequestMapping(value = &quot;info&quot;,method = RequestMethod.GET)
-   public String info(){
-       return user.getUsername()+&quot;,&quot;+user.getPassword();
-   }
+  @Autowired
+  private User user;
+&#x200A;
+  @RequestMapping(value = &quot;info&quot;,method = RequestMethod.GET)
+  public String info(){
+      return user.getUsername()+&quot;,&quot;+user.getPassword();
+  }
 }
-</pre></li>
-<li>&#x8BBF;&#x95EE;<a href="http://localhost:8080/userController/info" target="_blank">http://localhost:8080/userController/info</a> &#x67E5;&#x770B;&#x7ED3;&#x679C;&#xFF0C;&#x5728;&#x9875;&#x9762;&#x663E;&#x793A;&#x5982;&#x4E0B;&#x5185;&#x5BB9;<pre>&quot;LuRenJia&quot;,&quot;admin&quot;</pre></li>
+</code></pre><p>&#x200B;</p>
+</li>
+<li><p>&#x8BBF;&#x95EE;<a href="http://localhost:8080/userController/info" target="_blank">http://localhost:8080/userController/info</a> &#x67E5;&#x770B;&#x7ED3;&#x679C;&#xFF0C;&#x5728;&#x9875;&#x9762;&#x663E;&#x793A;&#x5982;&#x4E0B;&#x5185;&#x5BB9;</p>
+<pre><code>LuRenJia,admin
+</code></pre><p>&#x5982;&#x679C;&#x6D4B;&#x8BD5;&#x4E2D;&#x51FA;&#x73B0;&#x4E2D;&#x6587;&#x4E71;&#x7801;&#xFF0C;&#x53EF;&#x5B89;&#x88C5;&#x4EE5;&#x4E0B;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#xFF1A;</p>
+<p>&#x4F9D;&#x6B21;&#x5355;&#x51FB; File =&gt; Settings =&gt; Editor =&gt; File Encodings &#x547D;&#x4EE4;&#xFF0C;&#x5C06; Properties Files (*.properties) &#x4E0B;&#x7684; Default encoding for properties files &#x8BBE;&#x7F6E;&#x4E3A; UTF-8&#xFF0C;&#x5C06; Transparent native-to-ascii conversion &#x524D;&#x7684;&#x590D;&#x9009;&#x6846;&#x52FE;&#x9009;&#x4E0A;&#x3002;</p>
+</li>
 </ol>
 
                                 
@@ -532,7 +546,7 @@ public class UserController {
                 </a>
                 
                 
-                <a href="../" class="navigation navigation-next " aria-label="Next page: 未完待续..">
+                <a href="../03.SpringDataJPA使用/SpringDataJPA使用.html" class="navigation navigation-next " aria-label="Next page: 第三章 SpringDataJPA使用">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -543,7 +557,7 @@ public class UserController {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"第二章 web开发实战","level":"1.3","depth":1,"next":{"title":"未完待续..","level":"1.4","depth":1,"path":"README.md","ref":"README.md","articles":[]},"previous":{"title":"第一章 快速上手SpringBoot","level":"1.2","depth":1,"path":"01.快速上手SpringBoot/快速上手SpringBoot.md","ref":"01.快速上手SpringBoot/快速上手SpringBoot.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"02.web开发实战/web开发实战.md","mtime":"2018-04-05T11:36:43.383Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-05T12:26:57.202Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"第二章 web开发实战","level":"1.3","depth":1,"next":{"title":"第三章 SpringDataJPA使用","level":"1.4","depth":1,"path":"03.SpringDataJPA使用/SpringDataJPA使用.md","ref":"03.SpringDataJPA使用/SpringDataJPA使用.md","articles":[]},"previous":{"title":"第一章 快速上手SpringBoot","level":"1.2","depth":1,"path":"01.快速上手SpringBoot/快速上手SpringBoot.md","ref":"01.快速上手SpringBoot/快速上手SpringBoot.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"02.web开发实战/web开发实战.md","mtime":"2018-04-18T12:11:00.370Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-04T09:26:19.665Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -551,6 +565,10 @@ public class UserController {
         
     <script src="../gitbook/gitbook.js"></script>
     <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
     
         
         <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
