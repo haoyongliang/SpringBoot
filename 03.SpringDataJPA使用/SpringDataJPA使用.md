@@ -565,7 +565,7 @@ Hibernate: update student set class_id=? where id=?
 
 这里只需要在Student类中添加属性private Classes classes;生成get/set方法即可,并且在该属性上添加@ManyToOne(cascade={CascadeType.ALL})
 
-> Tips:cascade = CascadeType.ALL这个在后面讲解
+> CascadeType.ALL表示级联删除，级联更新，级联新建，级联新建，比如删除主表，则从表也随之删除，详情见附录
 
 ###学生类(Student)
 
@@ -598,7 +598,7 @@ public void testQuery(){
     }
 }
 ```
-###异常
+###可能遇到的异常
 
 ​	在controller返回数据到统一json转换的时候，出现了json infinite recursion stackoverflowerror的错误
 
@@ -621,6 +621,8 @@ public void testQuery(){
 ![0](./springboot_img/many-to-many.png)
 
 ###书类(Book)
+
+> @JoinTable会生成第三张中间表,表名叫book_publisher,joinColumns表示当前实体(Book)的主键,inverseJoinColumns表示另一个实体(Publisher)的主键
 
 ```
 /**
@@ -676,6 +678,8 @@ public class Book{
 ```
 
 ###作者类(Publisher)
+
+> mappedBy = "publishers"表示关系由另一个实体(Book)维护，mappedBy 的值是Book类中的Set<Book>属性的名字
 
 ```
 /**
@@ -757,11 +761,11 @@ public class BookRepositoryTests {
 
 ##10.一对一关系
 
-以人和身份证为例
-
-​	一个人(Person)对应一个(IDCard)
+以人和身份证为例,一个人(Person)对应一个(IDCard)，关系由人(Person)来维护
 
 ### 人类(Person)
+
+因为关系由Person维护，所以这里使用@JoinColumn声明person表中外键的名字(外建名=另一个表的表名+"_"+另一个表的主键名)
 
 ```
 import javax.persistence.*;
@@ -778,6 +782,7 @@ public class Person {
     private int id;
     @Column
     private String name;
+    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idCard_id")
     private IDCard idCard;
@@ -804,6 +809,8 @@ public class Person {
 
 ###身份证类(IDCard)
 
+> mappedBy = "idCard"表示关系由另一个实体(Person)维护，mappedBy 的值是Person类中的IDCard属性的名字
+
 ```
 import javax.persistence.*;
 import java.util.Date;
@@ -825,7 +832,7 @@ public class IDCard {
     @Temporal(TemporalType.DATE)
     /**有效期*/
     private Date expiryDate;
-    /**去掉这个属性变成了单向一对一，加上就是双向一对一，表示外键交给Person维护*/
+   
     @OneToOne(mappedBy = "idCard")
     private Person person;
 
@@ -924,7 +931,7 @@ BookRepository extends JpaRepository是属性或方法级别的注解，用于�
 | mappedBy      | String        | 用在双向关联中。如果关系是双向的，则需定义此参数（与 @JoinColumn 互斥，如果标注了 @JoinColumn注解，不需要再定义此参数）。 |
 | cascade       | CascadeType[] | 定义**源实体**和关联的**目标实体**间的级联关系。当对**源实体**进行操作时，是否对关联的**目标实体**也做相同的操作。默认没有级联操作。该参数的可选值有：CascadeType.PERSIST（级联新建）CascadeType.REMOVE（级联删除）CascadeType.REFRESH（级联刷新）CascadeType.MERGE（级联更新）CascadeType.ALL（包含以上四项） |
 | fetch         | FetchType     | 定义关联的**目标实体**的数据的加载方式。可选值：FetchType.LAZY（延迟加载，默认）FetchType.EAGER（立即加载）延迟加载：只有在第一次访问**源实体**关联的**目标实体**的时候才去加载。立即加载：在加载**源实体**数据的时候同时去加载好关联的**目标实体**的数据。 |
-| orphanRemoval | boolean       | 当**源实体**关联的**目标实体**被断开（如给该属性赋予另外一个实例，或该属性的值被设为 null。被断开的实例称为孤值，因为已经找不到任何一个实例与之发生关联）时，是否自动删除断开的实例（在数据库中表现为删除表示该实例的行记录），默认为 false。 |
+| orphanRemoval | boolean       | 当**源实体**关联的**目标实体**被断开（如给该属性赋予另外一个实例，或该属性的值被设为 null。被断开的实例称为孤值，因为已经找不到任何一个实例与之发生关联）时，是否自动删除断开的实例（在数据库中表现为删除表示该实例的行记录），默认为 false。(如果用CascadeType.REMOVE设置则必须要调用delete()方法才会删除) |
 
 ## @ManyToOne注解
 
