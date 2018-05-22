@@ -1,6 +1,6 @@
 # Spring Boot技术栈(Spring Data JPA)
 
-> 本篇介绍 通过Spring Data JPA对数据库进行常见的操作:删除、修改、添加、分页查询、单表查询、多表查询。
+> 本篇介绍 通过Spring Data JPA对数据库进行常见的操作:删除、修改、添加、条件查询、分页查询、单表查询、多表查询。
 
 # 1.Spring Data JPA介绍
 
@@ -471,11 +471,13 @@ public void userUpdateOrDelete(){
 
 ## 7.一对多关系(oneToMany)
 
+以班级和学生为例
+
+​	班级和学生，一个个班级对应多个学生，班级就是一的一方，学生就是多的一方
+
 需要在代表一的地方添加@OneToMany和@JoinColumn来标注(原理是在多的一方的表中增加一个外键列来保存关系)。代表多的实体不需要使用任何映射标注。
 
-如以下关系：班级和学生，一个个班级对应多个学生，班级就是一的一方，学生就是多的一方
-
-> Tips:cascade = CascadeType.ALL这个在后面讲解
+###班级类(Classes)
 
 > 班级代码 代表一的一方
 
@@ -494,6 +496,8 @@ public class Classes {
 }
 ```
 
+###学生类(Student)
+
 > 学生代码 代表多的一方
 
 ```
@@ -507,7 +511,9 @@ public class Student {
 }
 ```
 
-> 测试代码：保存班级的同时保存学生
+### 测试代码
+
+>  测试代码：保存班级的同时保存学生ClassesRepository和StudentRepository此处省略..直接继承JpaRepository即可
 
 ```
 @Test
@@ -555,13 +561,15 @@ Hibernate: update student set class_id=? where id=?
 
 ## 8.多对一关系(ManyToOne)
 
-需要在多的一方添加@ManyToOne
+继续修改刚才的代码，在多的一方添加@ManyToOne
 
 这里只需要在Student类中添加属性private Classes classes;生成get/set方法即可,并且在该属性上添加@ManyToOne(cascade={CascadeType.ALL})
 
 > Tips:cascade = CascadeType.ALL这个在后面讲解
 
-> 学生代码
+###学生类(Student)
+
+> 修改学生代码
 
 ```
 @Entity
@@ -577,6 +585,8 @@ public class Student {
 }
 ```
 
+###测试代码
+
 > 测试代码:查询所有学生对应的班级
 
 ```
@@ -588,7 +598,7 @@ public void testQuery(){
     }
 }
 ```
-**可能产生问题:**
+###异常
 
 ​	在controller返回数据到统一json转换的时候，出现了json infinite recursion stackoverflowerror的错误
 
@@ -599,3 +609,362 @@ public void testQuery(){
 **解决方法：**
 
 ​	在Student类中classes的setter方法上加注解@JsonBackReference
+
+## 9.多对多关系(ManyToMany)
+
+以书和作者为例：
+
+​	书(book)和作者(publisher)的可以看作多对多的关系，多对多关系需要一张中间表(book_publisher)来维护关系
+
+关系图：
+
+![0](./springboot_img/many-to-many.png)
+
+###书类(Book)
+
+```
+/**
+ * @Author:haoyongliang
+ * @Description:
+ * @Date: created in 14:34 2018/5/22
+ */
+@Entity
+public class Book{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
+    private String name;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "book_publisher",
+            joinColumns = @JoinColumn(name = "book_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
+    private Set<Publisher> publishers = new HashSet<>();
+
+    public Book() {
+
+    }
+
+    public Book(String name) {
+        this.name = name;
+    }
+
+    public Book(String name, Set<Publisher> publishers){
+        this.name = name;
+        this.publishers = publishers;
+    }
+
+
+    //TODO 省略GETTER/SETTER
+    @Override
+    public String toString() {
+        String result = String.format(
+                "Book [id=%d, name='%s']%n",
+                id, name);
+        if (publishers != null) {
+            for(Publisher publisher : publishers) {
+                result += String.format(
+                        "Publisher[id=%d, name='%s']%n",
+                        publisher.getId(), publisher.getName());
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+###作者类(Publisher)
+
+```
+/**
+ * @Author:haoyongliang
+ * @Description:
+ * @Date: created in 14:35 2018/5/22
+ */
+@Entity
+public class Publisher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
+    private String name;
+    @ManyToMany(mappedBy = "publishers")
+    private Set<Book> books = new HashSet<>();
+
+    public Publisher(){
+
+    }
+
+    public Publisher(String name){
+        this.name = name;
+    }
+
+    public Publisher(String name, Set<Book> books){
+        this.name = name;
+        this.books = books;
+    }
+	//TODO 省略GETTER/SETTER
+}
+```
+
+### 测试代码
+
+> BookRepository和PublisherRepository直接继承JpaRepository即可
+
+```
+/**
+ * @Author:haoyongliang
+ * @Description:
+ * @Date: created in 15:08 2018/5/22
+ */
+@RunWith(SpringRunner.class)
+@EntityScan(basePackages="cn.itcast.sprintBootDemo.domain")
+@EnableJpaRepositories(basePackages = {"cn.itcast.sprintBootDemo.repository"})
+@SpringBootTest
+public class BookRepositoryTests {
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private PublisherRepository publisherRepository;
+
+    @Test
+    @Transactional
+    public void findAll() throws Exception {
+        Publisher luxun = new Publisher("鲁迅");
+        Publisher chenduxiu = new Publisher("陈独秀");
+        Publisher libai = new Publisher("李白");
+
+        Book book1 = new Book("SpringDataJpa");
+        book1.getPublishers().add(luxun);
+
+        Book book2 = new Book("基因传");
+        book2.getPublishers().add(chenduxiu);
+        book2.getPublishers().add(libai);
+
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+        List<Book> books = bookRepository.findAll();
+        for (Iterator<Book> iterator = books.iterator(); iterator.hasNext(); ) {
+            Book book =  iterator.next();
+            System.out.println(book.toString());
+        }
+    }
+}
+
+```
+
+##10.一对一关系
+
+以人和身份证为例
+
+​	一个人(Person)对应一个(IDCard)
+
+### 人类(Person)
+
+```
+import javax.persistence.*;
+
+/**
+ * @Author:haoyongliang
+ * @Description:
+ * @Date: created in 17:49 2018/5/22
+ */
+@Entity
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
+    private String name;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idCard_id")
+    private IDCard idCard;
+
+    public Person() {
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    //TODO 省略GETTER和SETTER
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+}
+
+```
+
+###身份证类(IDCard)
+
+```
+import javax.persistence.*;
+import java.util.Date;
+
+/**
+ * @Author:haoyongliang
+ * @Description:
+ * @Date: created in 17:51 2018/5/22
+ */
+@Entity
+public class IDCard {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column(unique = true)
+    /**身份证号*/
+    private String no;
+    @Column
+    @Temporal(TemporalType.DATE)
+    /**有效期*/
+    private Date expiryDate;
+    /**去掉这个属性变成了单向一对一，加上就是双向一对一，表示外键交给Person维护*/
+    @OneToOne(mappedBy = "idCard")
+    private Person person;
+
+    public IDCard() {
+    }
+
+    public IDCard(String no, Date expiryDate) {
+        this.no = no;
+        this.expiryDate = expiryDate;
+    }
+
+    //TODO 省略GETTER和SETTER
+}
+
+```
+
+### 测试类
+
+> PersonRepository和IDCardRepository直接继承JpaRepository
+
+```
+@RunWith(SpringRunner.class)
+@EntityScan(basePackages="cn.itcast.sprintBootDemo.domain")
+@EnableJpaRepositories(basePackages = {"cn.itcast.sprintBootDemo.repository"})
+@SpringBootTest
+public class PersonRepositoryTests {
+    @Autowired
+    private PersonRepository personRepository;
+    
+    @Test
+    /**测试保存*/
+    public void add() throws Exception{
+        IDCard idCard = new IDCard("14240xxxxxxxxxxx",new SimpleDateFormat("yyyy-MM-dd").parse("2030-09-09"));
+
+        Person jack = new Person("Jack");
+        jack.setIdCard(idCard);
+
+        personRepository.save(jack);
+
+    }
+
+    @Test
+    /**测试查询*/
+    public void query() {
+        List<Person> all = personRepository.findAll();
+        for (Iterator<Person> iterator = all.iterator(); iterator.hasNext(); ) {
+            Person p =  iterator.next();
+            System.out.println(p.getIdCard().getNo());
+
+        }
+    }
+}
+```
+
+
+
+
+
+
+
+# 附录
+
+> 为方便阅读,下面是本文涉及到的注解的相关说明,在阅读文章时对注解如有问题可以查阅此附录
+
+##@ManyToMany注解
+
+BookRepository extends JpaRepository是属性或方法级别的注解，用于定义源实体与目标实体是多对多的关系。
+
+| 参数           | 类型            | 描述                                       |
+| ------------ | ------------- | ---------------------------------------- |
+| targetEntity | Class         | **源实体**关联的**目标实体**类型，默认是该成员属性对应的集合类型的泛型的参数化类型。 |
+| mappedBy     | String        | 用在双向关联中。如果关系是双向的，则需定义此参数（与 @JoinColumn互斥，如果标注了 @JoinColumn注解，不需要再定义此参数）。 |
+| cascade      | CascadeType[] | 定义**源实体**和关联的**目标实体**间的级联关系。当对**源实体**进行操作时，是否对关联的**目标实体**也做相同的操作。默认没有级联操作。该参数的可选值有：CascadeType.PERSIST（级联新建）CascadeType.REMOVE（级联删除）CascadeType.REFRESH（级联刷新）CascadeType.MERGE（级联更新）CascadeType.ALL（包含以上四项） |
+| fetch        | FetchType     | 定义关联的**目标实体**的数据的加载方式。可选值：FetchType.LAZY（延迟加载，默认）FetchType.EAGER（立即加载）延迟加载：只有在第一次访问**源实体**关联的**目标实体**的时候才去加载。立即加载：在加载**源实体**数据的时候同时去加载好关联的**目标实体**的数据。 |
+
+## @OneToOne注解
+
+是属性或方法级别的注解，用于定义源实体与目标实体是一对一的关系。
+
+| 参数            | 类型            | 描述                                       |
+| ------------- | ------------- | ---------------------------------------- |
+| targetEntity  | Class         | **源实体**关联的**目标实体**类型，默认是该成员属性对应的类型，因此该参数通常可以缺省。 |
+| mappedBy      | String        | 用在双向关联中。如果关系是双向的，只能有一方作为主体端，另一方则需声明此参数以表明将表间的这种关联关系转交给对方来维护。 |
+| cascade       | CascadeType[] | 定义**源实体**和关联的**目标实体**间的级联关系。当对**源实体**进行操作时，是否对关联的**目标实体**也做相同的操作。默认没有级联操作。该参数的可选值有：CascadeType.PERSIST（级联新建）CascadeType.REMOVE（级联删除）CascadeType.REFRESH（级联刷新）CascadeType.MERGE（级联更新）CascadeType.ALL（包含以上四项） |
+| fetch         | FetchType     | 定义关联的**目标实体**的数据的加载方式。可选值：FetchType.LAZY（延迟加载）FetchType.EAGER（立即加载，默认）延迟加载：只有在第一次访问**源实体**关联的**目标实体**的时候才去加载。立即加载：在加载**源实体**数据的时候同时去加载好关联的**目标实体**的数据。 |
+| optional      | boolean       | **源实体**关联的**目标实体**是否允许为 null，默认为 true。   |
+| orphanRemoval | boolean       | 当**源实体**关联的**目标实体**被断开（如给该属性赋予另外一个实例，或该属性的值被设为 null。被断开的实例称为孤值，因为已经找不到任何一个实例与之发生关联）时，是否自动删除断开的实例（在数据库中表现为删除表示该实例的行记录），默认为 false。 |
+
+## @OneToMany注解
+
+@OneToMany 是属性或方法级别的注解，用于定义源实体与目标实体是一对多的关系。
+
+| 参数            | 类型            | 描述                                       |
+| ------------- | ------------- | ---------------------------------------- |
+| targetEntity  | Class         | **源实体**关联的**目标实体**类型，默认是该成员属性对应的集合类型的泛型的参数化类型。 |
+| mappedBy      | String        | 用在双向关联中。如果关系是双向的，则需定义此参数（与 @JoinColumn 互斥，如果标注了 @JoinColumn注解，不需要再定义此参数）。 |
+| cascade       | CascadeType[] | 定义**源实体**和关联的**目标实体**间的级联关系。当对**源实体**进行操作时，是否对关联的**目标实体**也做相同的操作。默认没有级联操作。该参数的可选值有：CascadeType.PERSIST（级联新建）CascadeType.REMOVE（级联删除）CascadeType.REFRESH（级联刷新）CascadeType.MERGE（级联更新）CascadeType.ALL（包含以上四项） |
+| fetch         | FetchType     | 定义关联的**目标实体**的数据的加载方式。可选值：FetchType.LAZY（延迟加载，默认）FetchType.EAGER（立即加载）延迟加载：只有在第一次访问**源实体**关联的**目标实体**的时候才去加载。立即加载：在加载**源实体**数据的时候同时去加载好关联的**目标实体**的数据。 |
+| orphanRemoval | boolean       | 当**源实体**关联的**目标实体**被断开（如给该属性赋予另外一个实例，或该属性的值被设为 null。被断开的实例称为孤值，因为已经找不到任何一个实例与之发生关联）时，是否自动删除断开的实例（在数据库中表现为删除表示该实例的行记录），默认为 false。 |
+
+## @ManyToOne注解
+
+@ManyToOne 是属性或方法级别的注解，用于定义源实体与目标实体是多对一的关系。
+
+| 参数           | 类型            | 描述                                       |
+| ------------ | ------------- | ---------------------------------------- |
+| targetEntity | Class         | **源实体**关联的**目标实体**类型，默认是该成员属性对应的类型，因此该参数通常可以缺省。 |
+| cascade      | CascadeType[] | 定义**源实体**和关联的**目标实体**间的级联关系。当对**源实体**进行操作时，是否对关联的**目标实体**也做相同的操作。默认没有级联操作。该参数的可选值有：CascadeType.PERSIST（级联新建）CascadeType.REMOVE（级联删除）CascadeType.REFRESH（级联刷新）CascadeType.MERGE（级联更新）CascadeType.ALL（包含以上四项） |
+| fetch        | FetchType     | 定义关联的**目标实体**的数据的加载方式。可选值：FetchType.LAZY（延迟加载）FetchType.EAGER（立即加载，默认）延迟加载：只有在第一次访问**源实体**关联的**目标实体**的时候才去加载。立即加载：在加载**源实体**数据的时候同时去加载好关联的**目标实体**的数据。 |
+| optional     | boolean       | **源实体**关联的**目标实体**是否允许为 null，默认为 true。   |
+
+## @JoinTable注解
+
+与 @Table 注解相类似，不同的是，@JoinTable 注解是用于定义关联表，它只能标注在实体类型的成员属性或方法上，常用于多对多或多对一的关联映射。如果没有声明，则使用该注解的默认值。
+
+多对一时慎用，因为会生成第三张表
+
+| 参数                 | 类型                 | 描述                                       |
+| ------------------ | ------------------ | ---------------------------------------- |
+| name               | String             | 连接表的名称。                                  |
+| catalog            | String             | 默认为数据库系统缺省的 catalog。                     |
+| schema             | String             | 默认为用户缺省的 schema。                         |
+| joinColumns        | JoinColumn[]       | 连接表中的外键列，通过使用 @JoinColumn 注解来声明，该外键参照**源实体**的主键。 |
+| inverseJoinColumns | JoinColumn[]       | 与 `joinColumns` 参数作用类似，只不过该外键参照的是**目标实体**的主键。 |
+| uniqueConstraints  | UniqueConstraint[] | 表的唯一约束（除了由 @Column 和 @JoinColumn注解指定的约束以及主键的约束之外的约束），通过使用 @UniqueConstraint注解来声明，仅在允许自动更新数据库表结构的场景中起到作用，默认没有其他额外的约束条件。 |
+| indexes            | Index[]            | 表的索引，通过使用 @Index注解来声明，仅在允许自动更新数据库表结构的场景中起到作用，默认没有其他额外的索引。 |
+| foreignKey         | ForeignKey         | 用于生成表时定义 `joinColumns` 参数的外键约束。          |
+| inverseForeignKey  | ForeignKey         | 用于生成表时定义 `inverseJoinColumns` 参数的外键约束。   |
+
+##@JoinColumn注解
+
+与 @Column 注解相类似，不同的是，@JoinColumn 注解是用于定义外键列，它只能标注在实体类型的成员属性或方法上，如果没有声明，则使用该注解的默认值。与 @Column 注解相类似，不同的是，@JoinColumn 注解是用于定义外键列，它只能标注在实体类型的成员属性或方法上，如果没有声明，则使用该注解的默认值。
+
+| 参数               | 类型      | 描述                                       |
+| ---------------- | ------- | ---------------------------------------- |
+| name             | String  | 外键列的名称，默认为：`属性的名称` + `_` + `属性对应的实体的主键列的名称`（Hibernate 映射列时，若遇到驼峰拼写，会自动添加 `_` 连接并将大写字母改成小写）。 |
+| unique           | boolean | 外键列的值是否是唯一的。这是 @UniqueConstraint 注解的一个快捷方式，实质上是在声明唯一约束。默认值为 false。 |
+| nullable         | boolean | 外键列的值是否允许为 null。默认为 true。                |
+| insertable       | boolean | 外键列是否包含在 `INSERT` 语句中，默认为 true。          |
+| updatable        | boolean | 外键列是否包含在 `UPDATE` 语句中，默认为 true。          |
+| columnDefinition | String  | 生成外键列的 DDL 时使用的 SQL 片段。默认使用推断的类型来生成 SQL 片段以创建此列。 |
+| table            | String  | 外键列所属的表的名称。默认值：如果是外键 `@OneToOne` 或 `@ManyToOne` 关联，则为**源实体**的表的名称；如果是单向外键 `@OneToMany` 关系，则为**目标实体**的表的名称；如果是 `@ManyToMany`、`@OneToOne`、双向 `@ManyToOne`、双向 `@OneToMany` 关联，则为连接表的名称； |
